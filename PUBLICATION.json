@@ -1,23 +1,29 @@
 {
-  "schema": "codex.github-publication/v1",
+  "schema": "litigation-visualization.github-publication/v2",
   "repository": "Sven-Mirana/litigation-visualization-zh",
   "visibility": "public",
-  "authorized_at": "2026-07-29",
-  "source_archive": "诉讼可视化Skill包-MIT-2026-07-28.zip",
-  "source_archive_sha256": "301f5393cf4492989cbedd4cca5fd29c94f5773e2fa6db352694eb20ee105148",
-  "release_tag": "v2026.07.28",
-  "transformations": {
-    "outer_archive_directory_removed": true,
-    "macos_metadata_and_bytecode_removed": true,
-    "local_home_prefix_redacted_to": "${HOME}",
-    "redacted_file_count": 7,
-    "release_hotfixes": [],
-    "checksum_cycle_entries_removed": [],
-    "sealed_desktop_archive_modified": false
+  "base_branch": "main",
+  "base_commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
+  "base_tag": "v2026.07.28",
+  "target_branch": "codex/r4-gpl3-update-20260816",
+  "pull_request_mode": "draft",
+  "release_state": "PUBLIC-BRANCH-DRAFT-PR-READY",
+  "upload_intent": true,
+  "upload_executed": false,
+  "remote_branch_created": false,
+  "remote_pull_request_created": false,
+  "authorization_scope": "current user instruction authorizes repository update execution; it is not used as proof of third-party rights",
+  "license_transition": {
+    "repository_default": "GPL-3.0-only",
+    "historical_mit_rights_preserved": true,
+    "historical_commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
+    "historical_license_text_sha256": "675909952f35a3e7c16d48a8bc49d5705d40c3b248d2fbb11e7f6bc32ca51aac"
   },
-  "remaining_boundaries": {
-    "geo_activation": false,
-    "automatic_installation": false,
-    "court_submission": false
-  }
+  "excluded_authorities": [
+    "automatic installation",
+    "actual-case publication",
+    "client delivery",
+    "GEO activation",
+    "court submission"
+  ]
 }

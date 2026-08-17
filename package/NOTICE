@@ -14,19 +14,18 @@ R4 不撤销接收者已经取得的 MIT 权利。完整原 MIT 文本见 `LICEN
 
 以下实体保留明确的 MIT 来源声明：
 
-- `package/viz-engine/mother-render_t4.py`：旧版原字节 MIT 组件，SHA-256
+- `viz-engine/mother-render_t4.py`：旧版原字节 MIT 组件，SHA-256
   `6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49`。
-- `package/viz-engine/mother-build_t4.py`：基于旧 MIT 文件
+- `viz-engine/mother-build_t4.py`：基于旧 MIT 文件
   `aefe84ed02020aa8d2c3b987b156eb95aa6b08fa31362bb4f85c5007fd4a164a`
   修改；原部分保留 MIT，R4 修改和组合文件按 GPL-3.0-only 分发。
-- `package/tools/run_vis.py`：基于旧 MIT runner
+- `tools/run_vis.py`：基于旧 MIT runner
   `8f1f688c08a4cf9507af677927bd0f5520bf1a0accdde62ffab694fbf38bcb01`
   修改；原部分保留 MIT，R4 修改和组合文件按 GPL-3.0-only 分发。
-- `package/viz-engine/README-ENGINE.md`、根与 package 的 README/SKILL：基于旧
-  MIT 文档演进，R4 修改按 GPL-3.0-only 提供。
-- `package/fixtures/sample-case/` 中工作底稿、冻结 manifest 和 TEXT PASS 收据：
-  旧版原字节 MIT 合成样例；`CLIENT-DELIVERY-PROFILE.json` 为 R4 新增 GPL
-  合成样例。
+- `viz-engine/README-ENGINE.md`、README 与 SKILL：基于旧 MIT 文档演进，R4
+  修改按 GPL-3.0-only 提供。
+- `fixtures/sample-case/` 中工作底稿、冻结 manifest 和 TEXT PASS 收据：旧版
+  原字节 MIT 合成样例；`CLIENT-DELIVERY-PROFILE.json` 为 R4 新增 GPL 合成样例。
 
 逐实体路径、旧/新哈希和许可处理见 `LICENSE-PROVENANCE.json`。
 

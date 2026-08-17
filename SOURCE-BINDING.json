@@ -1,0 +1,27 @@
+{
+  "schema": "litigation-visualization.public-source-binding/v2",
+  "historical_public_base": {
+    "repository": "Sven-Mirana/litigation-visualization-zh",
+    "branch": "main",
+    "tag": "v2026.07.28",
+    "commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
+    "tracked_file_count": 93
+  },
+  "r4_packaging_input": {
+    "file_count": 56,
+    "portable_tree_profile": "relpath-nul-sha256-lines/v1",
+    "portable_tree_sha256": "092edd50834cb6a36f962cec9b163539c569afe1733b71b0c83be52ea48c89bc",
+    "source_tree_sha256": "3c1e91c48708a1604b995d2c15dc76c6a9a7660e9725f204994ac2c4e3b709f2",
+    "technical_freeze_sha256": "d276ad86755da057f8195224791913440783b4d1ed4fd128795e058da24f8184"
+  },
+  "transformation_scope": [
+    "preserve root and package GPL-3.0-only license texts",
+    "restore full historical MIT text and per-entity lineage",
+    "remove obsolete release-hold and old release naming",
+    "repair stale paths to non-distributed payload and recovery files",
+    "add public branch, draft PR, privacy, checksum, and CI gates"
+  ],
+  "source_absolute_paths_archived": false,
+  "actual_case_material_included": false,
+  "remote_write_performed_during_build": false
+}

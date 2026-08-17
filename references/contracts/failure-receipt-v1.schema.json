@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sublation:litigation-visualization:failure-receipt:1.0",
+  "title": "Fail-closed atomic output receipt (spec-only)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "failure_event_id",
+    "render_id",
+    "render_ir_sha256",
+    "requested",
+    "failed",
+    "exit_code",
+    "staging_inventory_before_cleanup",
+    "formal_output_inventory_before",
+    "formal_output_inventory_after",
+    "staging_deleted",
+    "partial_success_committed",
+    "atomic_strategy"
+  ],
+  "properties": {
+    "schema_version": { "const": "failure-receipt/1.0" },
+    "failure_event_id": { "$ref": "#/$defs/id" },
+    "render_id": { "$ref": "#/$defs/id" },
+    "render_ir_sha256": { "$ref": "#/$defs/sha256" },
+    "requested": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/format" },
+      "uniqueItems": true
+    },
+    "failed": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["format", "failure_code", "message"],
+        "properties": {
+          "format": { "$ref": "#/$defs/format" },
+          "failure_code": {
+            "enum": [
+              "ENGINE_UNAVAILABLE",
+              "FORMAT_WRITE_FAILED",
+              "GEOMETRY_DRIFT",
+              "PROVENANCE_GAP",
+              "PRIVACY_SCAN_FAILED",
+              "CHECKPOINT_INVALID"
+            ]
+          },
+          "message": { "type": "string", "minLength": 1, "maxLength": 500 }
+        }
+      }
+    },
+    "exit_code": { "type": "integer", "minimum": 1, "maximum": 255 },
+    "staging_inventory_before_cleanup": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/inventory_item" }
+    },
+    "formal_output_inventory_before": { "type": "array", "maxItems": 0 },
+    "formal_output_inventory_after": { "type": "array", "maxItems": 0 },
+    "staging_deleted": { "const": true },
+    "partial_success_committed": { "const": false },
+    "atomic_strategy": { "const": "rename_same_filesystem" }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "format": { "enum": ["svg", "png", "pptx", "vsdx", "drawio"] },
+    "inventory_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relative_path", "sha256", "size_bytes"],
+      "properties": {
+        "relative_path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "size_bytes": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

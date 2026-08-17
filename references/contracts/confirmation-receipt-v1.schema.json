@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sublation:litigation-visualization:confirmation-receipt:1.0",
+  "title": "Human confirmation receipt (spec-only)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "render_id",
+    "render_ir_sha256",
+    "checkpoint_version",
+    "renderer_contract_version",
+    "confirmer",
+    "confirmed_at",
+    "choices",
+    "status",
+    "revocation"
+  ],
+  "properties": {
+    "schema_version": { "const": "confirmation-receipt/1.0" },
+    "receipt_id": { "$ref": "#/$defs/id" },
+    "render_id": { "$ref": "#/$defs/id" },
+    "render_ir_sha256": { "$ref": "#/$defs/sha256" },
+    "checkpoint_version": { "const": "checkpoint/1.0" },
+    "renderer_contract_version": { "const": "render-ir/1.0" },
+    "confirmer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pseudonymous_id", "role", "human"],
+      "properties": {
+        "pseudonymous_id": { "$ref": "#/$defs/id" },
+        "role": { "enum": ["root", "case_owner", "authorized_reviewer"] },
+        "human": { "const": true }
+      }
+    },
+    "confirmed_at": { "type": "string", "format": "date-time" },
+    "choices": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layout", "visual_mode", "emphasis_element_ids"],
+      "properties": {
+        "layout": { "$ref": "#/$defs/layout_selection" },
+        "visual_mode": { "$ref": "#/$defs/visual_mode_selection" },
+        "emphasis_element_ids": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["candidates", "selected", "selection_source"],
+          "properties": {
+            "candidates": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/id" }
+            },
+            "selected": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/id" }
+            },
+            "selection_source": { "const": "human" }
+          }
+        }
+      }
+    },
+    "status": { "enum": ["active", "revoked"] },
+    "revocation": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "event_id",
+            "revoked_at",
+            "revoked_by",
+            "reason",
+            "active_receipt_sha256"
+          ],
+          "properties": {
+            "event_id": { "$ref": "#/$defs/id" },
+            "revoked_at": { "type": "string", "format": "date-time" },
+            "revoked_by": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["pseudonymous_id", "role", "human"],
+              "properties": {
+                "pseudonymous_id": { "$ref": "#/$defs/id" },
+                "role": { "enum": ["root", "case_owner", "authorized_reviewer"] },
+                "human": { "const": true }
+              }
+            },
+            "reason": { "type": "string", "minLength": 1, "maxLength": 500 },
+            "active_receipt_sha256": { "$ref": "#/$defs/sha256" }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "layout": {
+      "enum": [
+        "numbered_point_timeline",
+        "dated_point_timeline",
+        "proportional_gantt",
+        "graphviz_flow",
+        "graphviz_relation",
+        "relation_tree",
+        "comparison_table"
+      ]
+    },
+    "visual_mode": { "enum": ["qichuan", "guizang", "baimiao"] },
+    "layout_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidates", "selected", "selection_source"],
+      "properties": {
+        "candidates": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/layout" }
+        },
+        "selected": { "$ref": "#/$defs/layout" },
+        "selection_source": { "const": "human" }
+      }
+    },
+    "visual_mode_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidates", "selected", "selection_source"],
+      "properties": {
+        "candidates": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/visual_mode" }
+        },
+        "selected": { "$ref": "#/$defs/visual_mode" },
+        "selection_source": { "const": "human" }
+      }
+    }
+  }
+}

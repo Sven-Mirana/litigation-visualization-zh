@@ -1,0 +1,27 @@
+{
+  "schema": "client-delivery-profile/1.0",
+  "case_ref": "SAMPLE-01",
+  "internal_case_id_sha256": "e9c5ab27803fc351b615302bbf537f561970e7d43619f234cfa9be26e2306503",
+  "data_class": "synthetic",
+  "release_state": "REVIEW_DRAFT",
+  "client_label": "合成样例客户",
+  "matter_label": "融资租赁合同纠纷可视化简报",
+  "materials_as_of": "2021-07-15",
+  "confidentiality": "INTERNAL_REVIEW_ONLY",
+  "prepared_by": "诉讼可视化 S2 合成验证",
+  "executive_summary": [
+    "本简报仅基于同案冻结 07 已登记的合成材料，不新增案件事实或法律结论。",
+    "当前材料登记合同、交付、欠付与催告节点；金额仍以对账核定为准。",
+    "全部法条引用尚未注入，任何法律判断与客户外发均须指定律师终审。"
+  ],
+  "next_steps": [
+    "核对对账口径与金额时点。",
+    "复核送达凭证及其对应事实。",
+    "完成现行法核验与指定律师终签。"
+  ],
+  "scope_items": [
+    "唯一语义输入为同案冻结 07 与 A01-A09 锚集。",
+    "客户版不展示本机路径、构建日志或未获准的隐藏原文。",
+    "当前产物状态固定为审阅稿，不构成客户放行或外发授权。"
+  ]
+}

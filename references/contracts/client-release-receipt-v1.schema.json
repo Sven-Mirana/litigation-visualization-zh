@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sublation:litigation-visualization:client-release-receipt:1.0",
+  "title": "Human client-release authorization receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "case_ref",
+    "issued_at",
+    "authorizer",
+    "decision",
+    "status",
+    "scope",
+    "profile_sha256",
+    "artifacts",
+    "assertions",
+    "release_state"
+  ],
+  "properties": {
+    "schema_version": { "const": "client-release-receipt/1.0" },
+    "receipt_id": { "$ref": "#/$defs/id" },
+    "case_ref": { "$ref": "#/$defs/id" },
+    "issued_at": { "type": "string", "format": "date-time" },
+    "authorizer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pseudonymous_id", "role", "human"],
+      "properties": {
+        "pseudonymous_id": { "$ref": "#/$defs/id" },
+        "role": { "enum": ["root", "case_owner", "authorized_reviewer"] },
+        "human": { "const": true }
+      }
+    },
+    "decision": { "const": "CLIENT_RELEASE_APPROVED" },
+    "status": { "const": "active" },
+    "scope": { "const": "local_client_delivery" },
+    "profile_sha256": { "$ref": "#/$defs/sha256" },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": { "$ref": "#/$defs/artifact_ref" }
+    },
+    "assertions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "facts_and_evidence_reviewed",
+        "legal_conclusions_human_approved",
+        "privacy_reviewed",
+        "client_labels_reviewed",
+        "artifact_hashes_verified",
+        "release_authority_confirmed"
+      ],
+      "properties": {
+        "facts_and_evidence_reviewed": { "const": true },
+        "legal_conclusions_human_approved": { "const": true },
+        "privacy_reviewed": { "const": true },
+        "client_labels_reviewed": { "const": true },
+        "artifact_hashes_verified": { "const": true },
+        "release_authority_confirmed": { "const": true }
+      }
+    },
+    "release_state": { "const": "CLIENT_RELEASED" }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "sha256"],
+      "properties": {
+        "format": { "enum": ["pptx", "html"] },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    }
+  }
+}

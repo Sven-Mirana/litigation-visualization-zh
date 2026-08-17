@@ -1,0 +1,855 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sublation:litigation-visualization:delivery-ir:1.0",
+  "title": "Closed client-delivery intermediate representation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "source_schema",
+    "case_ref",
+    "data_class",
+    "release_state",
+    "input_sha256",
+    "profile_sha256",
+    "profile",
+    "sources",
+    "semantic_inventory",
+    "profile_consumption",
+    "source_consumption",
+    "derived_consumption",
+    "domain_projection_partition",
+    "slides"
+  ],
+  "properties": {
+    "schema": { "const": "delivery-ir/1.0" },
+    "source_schema": { "$ref": "#/$defs/source_schema" },
+    "case_ref": { "$ref": "#/$defs/id" },
+    "data_class": { "$ref": "#/$defs/data_class" },
+    "release_state": { "enum": ["REVIEW_DRAFT", "CLIENT_RELEASED"] },
+    "input_sha256": { "$ref": "#/$defs/sha256" },
+    "profile_sha256": { "$ref": "#/$defs/sha256" },
+    "profile": { "$ref": "#/$defs/profile" },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "semantic_inventory": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/semantic_item" }
+    },
+    "profile_consumption": { "$ref": "#/$defs/profile_consumption" },
+    "source_consumption": { "$ref": "#/$defs/source_consumption" },
+    "derived_consumption": { "$ref": "#/$defs/derived_consumption" },
+    "domain_projection_partition": { "$ref": "#/$defs/domain_projection_partition" },
+    "slides": {
+      "type": "array",
+      "minItems": 8,
+      "items": { "$ref": "#/$defs/slide" }
+    }
+  },
+  "allOf": [
+    { "$ref": "#/$defs/contains_cover" },
+    { "$ref": "#/$defs/contains_executive_summary" },
+    { "$ref": "#/$defs/contains_relationship" },
+    { "$ref": "#/$defs/contains_timeline" },
+    { "$ref": "#/$defs/contains_evidence_matrix" },
+    { "$ref": "#/$defs/contains_stage_risk" },
+    { "$ref": "#/$defs/contains_next_steps" },
+    { "$ref": "#/$defs/contains_scope" }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "data_class": {
+      "enum": ["synthetic", "deidentified"]
+    },
+    "source_schema": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["schema", "variant", "table_headers"],
+          "properties": {
+            "schema": { "const": "frozen07-source-schema/1.0" },
+            "variant": { "const": "canonical-v1" },
+            "table_headers": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["A01", "A04", "A06", "A08", "A09"],
+              "properties": {
+                "A01": { "const": ["主体", "角色", "要点", "来源"] },
+                "A04": { "const": ["项目", "金额（元）", "口径"] },
+                "A06": { "const": ["要件", "事实", "证据", "缺口", "状态"] },
+                "A08": { "const": ["阶段", "动作", "出口"] },
+                "A09": { "const": ["编号", "类别", "内容", "解除条件"] }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["schema", "variant", "table_headers"],
+          "properties": {
+            "schema": { "const": "frozen07-source-schema/1.0" },
+            "variant": { "const": "legacy-frozen07-v1" },
+            "table_headers": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["A01", "A04", "A06", "A08", "A09"],
+              "properties": {
+                "A01": { "const": ["角色", "主体", "说明"] },
+                "A04": { "const": ["口径", "项目", "金额（万元）", "说明"] },
+                "A06": { "const": ["要件", "事实主张", "对应证据", "状态", "备注"] },
+                "A08": { "const": ["阶段", "主要动作", "时点"] },
+                "A09": { "const": ["风险事项", "等级", "说明", "处置"] }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "display_text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "short_text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "client_label",
+        "matter_label",
+        "prepared_by",
+        "materials_as_of",
+        "confidentiality"
+      ],
+      "properties": {
+        "schema": { "const": "client-delivery-profile/1.0" },
+        "client_label": { "$ref": "#/$defs/short_text" },
+        "matter_label": { "$ref": "#/$defs/short_text" },
+        "prepared_by": { "$ref": "#/$defs/short_text" },
+        "materials_as_of": { "type": "string", "format": "date" },
+        "confidentiality": {
+          "enum": ["CONFIDENTIAL", "ATTORNEY_WORK_PRODUCT", "INTERNAL_REVIEW_ONLY"]
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "sha256", "data_class", "frozen"],
+      "properties": {
+        "source_id": { "$ref": "#/$defs/id" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "data_class": { "$ref": "#/$defs/data_class" },
+        "frozen": { "const": true }
+      }
+    },
+    "semantic_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["semantic_id", "slide_id", "slot", "item_index", "content_sha256"],
+      "properties": {
+        "semantic_id": {
+          "type": "string",
+          "pattern": "^sem:[A-Za-z0-9][A-Za-z0-9._:-]{0,63}:[a-z][a-z0-9_.-]{0,47}:[0-9]{3}:[0-9a-f]{12}$"
+        },
+        "slide_id": { "$ref": "#/$defs/id" },
+        "slot": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]{0,47}$"
+        },
+        "item_index": { "type": "integer", "minimum": 0 },
+        "content_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "profile_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slide_id", "slot", "item_index", "semantic_id", "content_sha256"],
+      "properties": {
+        "slide_id": { "$ref": "#/$defs/id" },
+        "slot": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,47}$" },
+        "item_index": { "type": "integer", "minimum": 0 },
+        "semantic_id": {
+          "type": "string",
+          "pattern": "^sem:[A-Za-z0-9][A-Za-z0-9._:-]{0,63}:[a-z][a-z0-9_.-]{0,47}:[0-9]{3}:[0-9a-f]{12}$"
+        },
+        "content_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "profile_consumption_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field",
+        "source_index",
+        "source_kind",
+        "source_sha256",
+        "projection"
+      ],
+      "properties": {
+        "field": {
+          "enum": [
+            "client_label",
+            "matter_label",
+            "prepared_by",
+            "materials_as_of",
+            "confidentiality",
+            "executive_summary",
+            "next_steps",
+            "scope_items"
+          ]
+        },
+        "source_index": { "type": "integer", "minimum": 0 },
+        "source_kind": { "enum": ["scalar", "list_item"] },
+        "source_sha256": { "$ref": "#/$defs/sha256" },
+        "projection": { "$ref": "#/$defs/profile_projection" }
+      }
+    },
+    "profile_control_exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "source_sha256", "excluded_reason"],
+      "properties": {
+        "field": {
+          "enum": [
+            "schema",
+            "case_ref",
+            "internal_case_id_sha256",
+            "data_class",
+            "release_state"
+          ]
+        },
+        "source_sha256": { "$ref": "#/$defs/sha256" },
+        "excluded_reason": { "const": "non_customer_visible_control" }
+      }
+    },
+    "profile_consumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "scope",
+        "control_scope",
+        "candidate_item_count",
+        "consumed_item_count",
+        "total_projection_count",
+        "coverage_percent",
+        "unconsumed_item_count",
+        "undeclared_duplicate_count",
+        "denominator_sha256",
+        "excluded_control_count",
+        "excluded_controls",
+        "items"
+      ],
+      "properties": {
+        "schema": { "const": "profile-consumption/1.0" },
+        "scope": {
+          "const": [
+            "client_label",
+            "matter_label",
+            "prepared_by",
+            "materials_as_of",
+            "confidentiality",
+            "executive_summary",
+            "next_steps",
+            "scope_items"
+          ]
+        },
+        "control_scope": {
+          "const": [
+            "schema",
+            "case_ref",
+            "internal_case_id_sha256",
+            "data_class",
+            "release_state"
+          ]
+        },
+        "candidate_item_count": { "type": "integer", "minimum": 8 },
+        "consumed_item_count": { "type": "integer", "minimum": 8 },
+        "total_projection_count": { "type": "integer", "minimum": 8 },
+        "coverage_percent": { "const": 100 },
+        "unconsumed_item_count": { "const": 0 },
+        "undeclared_duplicate_count": { "const": 0 },
+        "denominator_sha256": { "$ref": "#/$defs/sha256" },
+        "excluded_control_count": { "const": 5 },
+        "excluded_controls": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/profile_control_exclusion" }
+        },
+        "items": {
+          "type": "array",
+          "minItems": 8,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/profile_consumption_item" }
+        }
+      }
+    },
+    "derived_consumption_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derived_id",
+        "derived_reason",
+        "value_sha256",
+        "projection"
+      ],
+      "properties": {
+        "derived_id": { "$ref": "#/$defs/id" },
+        "derived_reason": {
+          "enum": [
+            "closed_slide_title",
+            "fixed_review_boundary",
+            "missing_legal_authority_notice"
+          ]
+        },
+        "value_sha256": { "$ref": "#/$defs/sha256" },
+        "projection": { "$ref": "#/$defs/profile_projection" }
+      }
+    },
+    "derived_consumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "candidate_item_count",
+        "consumed_item_count",
+        "total_projection_count",
+        "coverage_percent",
+        "unconsumed_item_count",
+        "undeclared_duplicate_count",
+        "items"
+      ],
+      "properties": {
+        "schema": { "const": "derived-consumption/1.0" },
+        "candidate_item_count": { "type": "integer", "minimum": 11 },
+        "consumed_item_count": { "type": "integer", "minimum": 11 },
+        "total_projection_count": { "type": "integer", "minimum": 11 },
+        "coverage_percent": { "const": 100 },
+        "unconsumed_item_count": { "const": 0 },
+        "undeclared_duplicate_count": { "const": 0 },
+        "items": {
+          "type": "array",
+          "minItems": 11,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/derived_consumption_item" }
+        }
+      }
+    },
+    "domain_projection_partition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "semantic_item_count",
+        "source_projection_count",
+        "profile_projection_count",
+        "derived_projection_count",
+        "partitioned_item_count",
+        "overlap_count",
+        "unpartitioned_item_count",
+        "unexpected_projection_count",
+        "semantic_inventory_sha256"
+      ],
+      "properties": {
+        "schema": { "const": "domain-projection-partition/1.0" },
+        "semantic_item_count": { "type": "integer", "minimum": 1 },
+        "source_projection_count": { "type": "integer", "minimum": 1 },
+        "profile_projection_count": { "type": "integer", "minimum": 8 },
+        "derived_projection_count": { "type": "integer", "minimum": 11 },
+        "partitioned_item_count": { "type": "integer", "minimum": 1 },
+        "overlap_count": { "const": 0 },
+        "unpartitioned_item_count": { "const": 0 },
+        "unexpected_projection_count": { "const": 0 },
+        "semantic_inventory_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "source_projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "slide_id",
+        "slot",
+        "item_index",
+        "semantic_id",
+        "content_sha256"
+      ],
+      "properties": {
+        "mode": { "enum": ["dated", "undated", "other_view"] },
+        "slide_id": { "$ref": "#/$defs/id" },
+        "slot": { "type": "string", "pattern": "^[a-z][a-z0-9_.-]{0,47}$" },
+        "item_index": { "type": "integer", "minimum": 0 },
+        "semantic_id": {
+          "type": "string",
+          "pattern": "^sem:[A-Za-z0-9][A-Za-z0-9._:-]{0,63}:[a-z][a-z0-9_.-]{0,47}:[0-9]{3}:[0-9a-f]{12}$"
+        },
+        "content_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "source_consumption_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_locator",
+        "source_sha256",
+        "source_kind",
+        "projections"
+      ],
+      "properties": {
+        "source_id": {
+          "enum": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09"]
+        },
+        "source_locator": {
+          "type": "string",
+          "pattern": "^(?:line|table-row):[0-9]{4}$"
+        },
+        "source_sha256": { "$ref": "#/$defs/sha256" },
+        "source_kind": { "enum": ["prose_line", "table_row"] },
+        "projections": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/source_projection" }
+        }
+      }
+    },
+    "source_exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "source_locator", "source_sha256", "excluded_reason"],
+      "properties": {
+        "source_id": {
+          "enum": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09"]
+        },
+        "source_locator": { "type": "string", "pattern": "^line:[0-9]{4}$" },
+        "source_sha256": { "$ref": "#/$defs/sha256" },
+        "excluded_reason": {
+          "enum": ["anchor_title", "table_header", "table_separator"]
+        }
+      }
+    },
+    "source_consumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "scope",
+        "candidate_item_count",
+        "consumed_item_count",
+        "total_projection_count",
+        "coverage_percent",
+        "unconsumed_item_count",
+        "undeclared_duplicate_count",
+        "excluded_item_count",
+        "excluded_items",
+        "items"
+      ],
+      "properties": {
+        "schema": { "const": "source-consumption/1.0" },
+        "scope": {
+          "const": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09"]
+        },
+        "candidate_item_count": { "type": "integer", "minimum": 1 },
+        "consumed_item_count": { "type": "integer", "minimum": 1 },
+        "total_projection_count": { "type": "integer", "minimum": 1 },
+        "coverage_percent": { "const": 100 },
+        "unconsumed_item_count": { "const": 0 },
+        "undeclared_duplicate_count": { "const": 0 },
+        "excluded_item_count": { "type": "integer", "minimum": 9 },
+        "excluded_items": {
+          "type": "array",
+          "minItems": 9,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/source_exclusion" }
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/source_consumption_item" }
+        }
+      }
+    },
+    "text_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": { "text": { "$ref": "#/$defs/display_text" } }
+    },
+    "cells_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cells"],
+      "properties": {
+        "cells": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": { "$ref": "#/$defs/display_text" }
+        }
+      }
+    },
+    "cover_content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile"],
+      "properties": {
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["client_label", "matter_label", "prepared_by", "materials_as_of", "confidentiality"],
+          "properties": {
+            "client_label": { "$ref": "#/$defs/short_text" },
+            "matter_label": { "$ref": "#/$defs/short_text" },
+            "prepared_by": { "$ref": "#/$defs/short_text" },
+            "materials_as_of": { "type": "string", "format": "date" },
+            "confidentiality": {
+              "enum": ["CONFIDENTIAL", "ATTORNEY_WORK_PRODUCT", "INTERNAL_REVIEW_ONLY"]
+            }
+          }
+        }
+      }
+    },
+    "executive_summary_content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["items"],
+      "properties": {
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/display_text" }
+        }
+      }
+    },
+    "relationship_content": {
+      "type": "object",
+      "description": "Parties and chain are independent source-bound display lists and MUST occupy separate relationship slides. Exactly one list is non-empty. delivery-ir/1.0 has no edge model; renderers MUST NOT infer an edge from array order or adjacency.",
+      "additionalProperties": false,
+      "required": ["parties", "chain"],
+      "oneOf": [
+        {
+          "properties": {
+            "parties": { "minItems": 1 },
+            "chain": { "maxItems": 0 }
+          }
+        },
+        {
+          "properties": {
+            "parties": { "maxItems": 0 },
+            "chain": { "minItems": 1 }
+          }
+        }
+      ],
+      "properties": {
+        "parties": {
+          "type": "array",
+          "description": "Source-bound party cards only; order is not a relationship assertion. Party-only pages contain no chain items.",
+          "maxItems": 6,
+          "items": { "$ref": "#/$defs/text_item" }
+        },
+        "chain": {
+          "type": "array",
+          "description": "Source-bound narrative rows only; source order is preserved without visible numbering and entries do not authorize graph edges between party cards. Chain-only pages contain no party cards.",
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/text_item" }
+        }
+      }
+    },
+    "timeline_content": {
+      "type": "object",
+      "description": "Dated events are rendered as stable vertical rows with separate date and text columns. Undated milestones occupy one or more contiguous trailing timeline slides and never mix with dated rows.",
+      "additionalProperties": false,
+      "required": ["events", "undated_milestones"],
+      "properties": {
+        "events": {
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["date", "text"],
+            "properties": {
+              "date": { "$ref": "#/$defs/short_text" },
+              "text": { "$ref": "#/$defs/display_text" }
+            }
+          }
+        },
+        "undated_milestones": {
+          "type": "array",
+          "description": "Contextual undated items; non-empty only on contiguous trailing timeline slides.",
+          "maxItems": 4,
+          "items": { "$ref": "#/$defs/text_item" }
+        }
+      },
+      "anyOf": [
+        { "properties": { "events": { "minItems": 1 } } },
+        { "properties": { "undated_milestones": { "minItems": 1 } } }
+      ]
+    },
+    "evidence_matrix_content": {
+      "type": "object",
+      "description": "Rows, amounts, amount notes, and evidence-index items occupy separate slides so real 16pt content receives the full slide body.",
+      "additionalProperties": false,
+      "required": ["rows", "amounts", "amount_notes", "evidence_index"],
+      "properties": {
+        "rows": { "type": "array", "maxItems": 3, "items": { "$ref": "#/$defs/cells_row" } },
+        "amounts": { "type": "array", "maxItems": 3, "items": { "$ref": "#/$defs/cells_row" } },
+        "amount_notes": { "type": "array", "maxItems": 4, "items": { "$ref": "#/$defs/text_item" } },
+        "evidence_index": { "type": "array", "maxItems": 4, "items": { "$ref": "#/$defs/text_item" } }
+      },
+      "oneOf": [
+        { "properties": { "rows": { "minItems": 1 }, "amounts": { "maxItems": 0 }, "amount_notes": { "maxItems": 0 }, "evidence_index": { "maxItems": 0 } } },
+        { "properties": { "rows": { "maxItems": 0 }, "amounts": { "minItems": 1 }, "amount_notes": { "maxItems": 0 }, "evidence_index": { "maxItems": 0 } } },
+        { "properties": { "rows": { "maxItems": 0 }, "amounts": { "maxItems": 0 }, "amount_notes": { "minItems": 1 }, "evidence_index": { "maxItems": 0 } } },
+        { "properties": { "rows": { "maxItems": 0 }, "amounts": { "maxItems": 0 }, "amount_notes": { "maxItems": 0 }, "evidence_index": { "minItems": 1 } } }
+      ]
+    },
+    "stage_risk_content": {
+      "type": "object",
+      "description": "Stage and risk tables occupy separate slides; exactly one list is non-empty.",
+      "additionalProperties": false,
+      "required": ["stages", "risks"],
+      "properties": {
+        "stages": { "type": "array", "maxItems": 4, "items": { "$ref": "#/$defs/cells_row" } },
+        "risks": { "type": "array", "maxItems": 3, "items": { "$ref": "#/$defs/cells_row" } }
+      },
+      "oneOf": [
+        { "properties": { "stages": { "minItems": 1 }, "risks": { "maxItems": 0 } } },
+        { "properties": { "stages": { "maxItems": 0 }, "risks": { "minItems": 1 } } }
+      ]
+    },
+    "next_steps_content": {
+      "type": "object",
+      "description": "Action and evidence-gap lists occupy separate slides; exactly one list is non-empty.",
+      "additionalProperties": false,
+      "required": ["items", "gaps"],
+      "properties": {
+        "items": { "type": "array", "maxItems": 5, "items": { "$ref": "#/$defs/display_text" } },
+        "gaps": { "type": "array", "maxItems": 4, "items": { "$ref": "#/$defs/display_text" } }
+      },
+      "oneOf": [
+        { "properties": { "items": { "minItems": 1 }, "gaps": { "maxItems": 0 } } },
+        { "properties": { "items": { "maxItems": 0 }, "gaps": { "minItems": 1 } } }
+      ]
+    },
+    "scope_content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["items"],
+      "properties": {
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/display_text" }
+        }
+      }
+    },
+    "slide_base": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slide_id", "role", "title", "source_refs", "content"],
+      "properties": {
+        "slide_id": { "$ref": "#/$defs/id" },
+        "role": {
+          "enum": [
+            "cover",
+            "executive_summary",
+            "relationship",
+            "timeline",
+            "evidence_matrix",
+            "stage_risk",
+            "next_steps",
+            "scope"
+          ]
+        },
+        "title": { "$ref": "#/$defs/short_text" },
+        "source_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "content": { "type": "object" }
+      }
+    },
+    "contains_cover": {
+      "properties": {
+        "slides": {
+          "contains": { "properties": { "role": { "const": "cover" } }, "required": ["role"] },
+          "minContains": 1
+        }
+      }
+    },
+    "contains_executive_summary": {
+      "properties": {
+        "slides": {
+          "contains": { "properties": { "role": { "const": "executive_summary" } }, "required": ["role"] },
+          "minContains": 1
+        }
+      }
+    },
+    "contains_relationship": {
+      "properties": {
+        "slides": {
+          "contains": { "properties": { "role": { "const": "relationship" } }, "required": ["role"] },
+          "minContains": 1
+        }
+      }
+    },
+    "contains_timeline": {
+      "properties": {
+        "slides": {
+          "contains": { "properties": { "role": { "const": "timeline" } }, "required": ["role"] },
+          "minContains": 1
+        }
+      }
+    },
+    "contains_evidence_matrix": {
+      "properties": {
+        "slides": {
+          "contains": { "properties": { "role": { "const": "evidence_matrix" } }, "required": ["role"] },
+          "minContains": 1
+        }
+      }
+    },
+    "contains_stage_risk": {
+      "properties": {
+        "slides": {
+          "contains": { "properties": { "role": { "const": "stage_risk" } }, "required": ["role"] },
+          "minContains": 1
+        }
+      }
+    },
+    "contains_next_steps": {
+      "properties": {
+        "slides": {
+          "contains": { "properties": { "role": { "const": "next_steps" } }, "required": ["role"] },
+          "minContains": 1
+        }
+      }
+    },
+    "contains_scope": {
+      "properties": {
+        "slides": {
+          "contains": { "properties": { "role": { "const": "scope" } }, "required": ["role"] },
+          "minContains": 1
+        }
+      }
+    },
+    "slide": {
+      "oneOf": [
+        {
+          "allOf": [
+            { "$ref": "#/$defs/slide_base" },
+            {
+              "properties": {
+                "role": { "const": "cover" },
+                "content": { "$ref": "#/$defs/cover_content" }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/slide_base" },
+            {
+              "properties": {
+                "role": { "const": "executive_summary" },
+                "content": { "$ref": "#/$defs/executive_summary_content" }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/slide_base" },
+            {
+              "properties": {
+                "role": { "const": "relationship" },
+                "content": { "$ref": "#/$defs/relationship_content" }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/slide_base" },
+            {
+              "properties": {
+                "role": { "const": "timeline" },
+                "content": { "$ref": "#/$defs/timeline_content" }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/slide_base" },
+            {
+              "properties": {
+                "role": { "const": "evidence_matrix" },
+                "content": { "$ref": "#/$defs/evidence_matrix_content" }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/slide_base" },
+            {
+              "properties": {
+                "role": { "const": "stage_risk" },
+                "content": { "$ref": "#/$defs/stage_risk_content" }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/slide_base" },
+            {
+              "properties": {
+                "role": { "const": "next_steps" },
+                "content": { "$ref": "#/$defs/next_steps_content" }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/slide_base" },
+            {
+              "properties": {
+                "role": { "const": "scope" },
+                "content": { "$ref": "#/$defs/scope_content" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

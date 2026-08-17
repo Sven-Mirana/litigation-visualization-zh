@@ -1,27 +1,22 @@
 {
-  "schema": "litigation-visualization.public-license-provenance/v2",
+  "schema": "litigation-visualization.package-license-provenance/v2",
   "release_state": "PUBLIC-BRANCH-DRAFT-PR-READY",
   "package_license": "GPL-3.0-only",
-  "author_and_declared_rights_holder": "李时瑀律师",
+  "historical_repository": "Sven-Mirana/litigation-visualization-zh",
+  "historical_tag": "v2026.07.28",
+  "historical_commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
+  "historical_license": "MIT",
+  "historical_license_sha256": "675909952f35a3e7c16d48a8bc49d5705d40c3b248d2fbb11e7f6bc32ca51aac",
+  "historical_mit_rights_preserved": true,
   "upload_intent": true,
   "upload_executed": false,
   "actual_case_material_included": false,
   "synthetic_fixture_only": true,
   "third_party_dependencies_vendored": false,
-  "authorization_scope": "repository update instruction only; not treated as independent third-party rights proof",
-  "historical_public_release": {
-    "repository": "Sven-Mirana/litigation-visualization-zh",
-    "tag": "v2026.07.28",
-    "commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
-    "tracked_file_count": 93,
-    "license": "MIT",
-    "license_sha256": "675909952f35a3e7c16d48a8bc49d5705d40c3b248d2fbb11e7f6bc32ca51aac",
-    "continuing_rights": "all rights already granted under MIT remain available for that historical material"
-  },
   "license_rule": "unmodified historical components remain MIT; original portions of modified historical files retain MIT notice; R4 modifications, new code, and combined modified files are distributed under GPL-3.0-only",
   "entities": [
     {
-      "path": "package/viz-engine/mother-render_t4.py",
+      "path": "viz-engine/mother-render_t4.py",
       "upstream_path": "viz-engine/mother-render_t4.py",
       "upstream_sha256": "6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49",
       "current_sha256": "6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49",
@@ -29,8 +24,7 @@
       "license": "MIT"
     },
     {
-      "path": "package/viz-engine/mother-build_t4.py",
-      "upstream_path": "viz-engine/mother-build_t4.py",
+      "path": "viz-engine/mother-build_t4.py",
       "upstream_sha256": "aefe84ed02020aa8d2c3b987b156eb95aa6b08fa31362bb4f85c5007fd4a164a",
       "current_sha256": "244f28522958fccbeb301931fabe0d4b8b6676ebe06d6d1f7c67564128109608",
       "change": "modified",
@@ -38,8 +32,7 @@
       "modifications_and_combined_file_license": "GPL-3.0-only"
     },
     {
-      "path": "package/tools/run_vis.py",
-      "upstream_path": "tools/run_vis.py",
+      "path": "tools/run_vis.py",
       "upstream_sha256": "8f1f688c08a4cf9507af677927bd0f5520bf1a0accdde62ffab694fbf38bcb01",
       "current_sha256": "f43cde7b75865335db22348d22738d08bb3b7155ed456eb49f62676c6a688688",
       "change": "modified",
@@ -47,99 +40,65 @@
       "modifications_and_combined_file_license": "GPL-3.0-only"
     },
     {
-      "path": "package/viz-engine/README-ENGINE.md",
-      "upstream_path": "viz-engine/README-ENGINE.md",
+      "path": "viz-engine/README-ENGINE.md",
       "upstream_sha256": "6f9cd2a4ac3d9389177a2c5bc060fb646fde6dacb75494af9333e37d0a8bceee",
       "current_sha256": "2c4b3311cda4eb3ffee178bcd2999aaced6b6a0d04aed6f0043361a49f3b28f6",
-      "change": "documentation updated for R4 file set",
+      "change": "modified documentation",
       "original_portions_license": "MIT",
       "modifications_license": "GPL-3.0-only"
     },
     {
       "path": "README.md",
-      "upstream_path": "README.md",
       "upstream_sha256": "992b43d385824238ff9a298dfb36677552fbd857c42ecc76cf5df5f1d9c639b3",
-      "current_sha256": "14d4da6df450514e652e5cc72870c6430ae15d30dd19046de52d72c5a1cc00c1",
-      "change": "rewritten from historical MIT documentation",
+      "current_sha256": "e1cec066279d4c49ff57b7368c5e5783c8c786ef342deceb08fcf377467f09b1",
+      "change": "modified documentation",
       "original_portions_license": "MIT",
       "modifications_license": "GPL-3.0-only"
     },
     {
       "path": "SKILL.md",
-      "upstream_path": "SKILL.md",
-      "upstream_sha256": "d6cea49ebd0e0221af80c9eab0fe2f6988bf350bd1c4821dcef84494bbc09e3d",
-      "current_sha256": "99078a8276de60f7cf208a8fa4686cc68ccd157eae1a4f54eddf7d783c05cdb5",
-      "change": "rewritten from historical MIT documentation",
-      "original_portions_license": "MIT",
-      "modifications_license": "GPL-3.0-only"
-    },
-    {
-      "path": "package/README.md",
-      "upstream_path": "README.md",
-      "upstream_sha256": "992b43d385824238ff9a298dfb36677552fbd857c42ecc76cf5df5f1d9c639b3",
-      "current_sha256": "e1cec066279d4c49ff57b7368c5e5783c8c786ef342deceb08fcf377467f09b1",
-      "change": "rewritten from historical MIT documentation",
-      "original_portions_license": "MIT",
-      "modifications_license": "GPL-3.0-only"
-    },
-    {
-      "path": "package/SKILL.md",
-      "upstream_path": "SKILL.md",
       "upstream_sha256": "d6cea49ebd0e0221af80c9eab0fe2f6988bf350bd1c4821dcef84494bbc09e3d",
       "current_sha256": "1438abd5663bf1a32a33d8b09af5dbea0ca474cb2efb88898e9026d031fd5120",
-      "change": "rewritten from historical MIT documentation",
+      "change": "modified documentation",
       "original_portions_license": "MIT",
       "modifications_license": "GPL-3.0-only"
     },
     {
-      "path": "package/fixtures/sample-case/07-诉讼案件办案方案工作底稿.md",
-      "upstream_path": "fixtures/sample-case/07-诉讼案件办案方案工作底稿.md",
+      "path": "fixtures/sample-case/07-诉讼案件办案方案工作底稿.md",
       "upstream_sha256": "c1e7b75d241eeb5a89d003a9c792fcd8e6bf26bf17d9b74b5c097a88bd94db4a",
       "current_sha256": "c1e7b75d241eeb5a89d003a9c792fcd8e6bf26bf17d9b74b5c097a88bd94db4a",
       "change": "byte-identical synthetic fixture",
       "license": "MIT"
     },
     {
-      "path": "package/fixtures/sample-case/FROZEN-07-MANIFEST.json",
-      "upstream_path": "fixtures/sample-case/FROZEN-07-MANIFEST.json",
+      "path": "fixtures/sample-case/FROZEN-07-MANIFEST.json",
       "upstream_sha256": "0f74fb76456a0a901cb6d0bfad9233d270d254708d9c294d16d024c4673bf21f",
       "current_sha256": "0f74fb76456a0a901cb6d0bfad9233d270d254708d9c294d16d024c4673bf21f",
       "change": "byte-identical synthetic fixture",
       "license": "MIT"
     },
     {
-      "path": "package/fixtures/sample-case/TEXT-PASS-RECEIPT.json",
-      "upstream_path": "fixtures/sample-case/TEXT-PASS-RECEIPT.json",
+      "path": "fixtures/sample-case/TEXT-PASS-RECEIPT.json",
       "upstream_sha256": "a47fad30c1b86bcb7db400aad80893eddd20fd99d4da6b544c18a34ebe16227a",
       "current_sha256": "a47fad30c1b86bcb7db400aad80893eddd20fd99d4da6b544c18a34ebe16227a",
       "change": "byte-identical synthetic fixture",
       "license": "MIT"
     },
     {
-      "path": "package/fixtures/sample-case/CLIENT-DELIVERY-PROFILE.json",
+      "path": "fixtures/sample-case/CLIENT-DELIVERY-PROFILE.json",
       "current_sha256": "3e8ee77a213acf449deef2018726e79dafbda320bc43e88fe782e7854161fc3e",
       "change": "new synthetic fixture",
       "license": "GPL-3.0-only"
     },
     {
-      "scope": "package/client_delivery/** and package/tools/run_client_delivery.py",
+      "scope": "client_delivery/** and tools/run_client_delivery.py",
       "change": "R4 client-delivery implementation",
       "license": "GPL-3.0-only"
     },
     {
-      "scope": "references/** and validation/**",
-      "change": "R4 contracts, schemas, release gates, and tests",
-      "license": "GPL-3.0-only except historical portions explicitly mapped above"
-    },
-    {
-      "scope": "root publication, governance, and checksum metadata",
-      "change": "R4 public-release metadata",
-      "license": "GPL-3.0-only"
+      "scope": "requirements-client-delivery.txt",
+      "change": "non-vendored dependency lock",
+      "license": "GPL-3.0-only metadata; dependencies retain their own licenses"
     }
-  ],
-  "third_party_dependencies": {
-    "vendored": false,
-    "lockfile": "package/requirements-client-delivery.txt",
-    "notices": "NOTICE"
-  }
+  ]
 }

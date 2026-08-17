@@ -1,0 +1,347 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sublation:litigation-visualization:artifact-manifest:2.0",
+  "title": "Atomic client-delivery artifact manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "case_ref",
+    "data_class",
+    "release_state",
+    "delivery_ir_sha256",
+    "profile_sha256",
+    "format_selection",
+    "requested",
+    "produced",
+    "requested_equals_produced",
+    "partial_success",
+    "overall_status",
+    "atomic_commit",
+    "completeness",
+    "privacy_output_scan",
+    "validations"
+  ],
+  "properties": {
+    "schema_version": { "const": "artifact-manifest/2.0" },
+    "run_id": { "$ref": "#/$defs/id" },
+    "case_ref": { "$ref": "#/$defs/id" },
+    "data_class": { "$ref": "#/$defs/data_class" },
+    "release_state": { "enum": ["REVIEW_DRAFT", "CLIENT_RELEASED"] },
+    "delivery_ir_sha256": { "$ref": "#/$defs/sha256" },
+    "profile_sha256": { "$ref": "#/$defs/sha256" },
+    "format_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_format", "request_source"],
+      "properties": {
+        "default_format": { "const": "pptx" },
+        "request_source": { "enum": ["omitted_default", "explicit"] }
+      }
+    },
+    "requested": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/format" }
+    },
+    "produced": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": { "$ref": "#/$defs/artifact" },
+      "allOf": [
+        {
+          "contains": {
+            "properties": { "format": { "const": "pptx" } },
+            "required": ["format"]
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": { "format": { "const": "html" } },
+            "required": ["format"]
+          },
+          "minContains": 0,
+          "maxContains": 1
+        }
+      ]
+    },
+    "requested_equals_produced": { "const": true },
+    "partial_success": { "const": false },
+    "overall_status": { "const": "complete" },
+    "atomic_commit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "same_filesystem",
+        "staging_complete_before_commit",
+        "formal_output_was_empty",
+        "cleanup_on_failure",
+        "committed"
+      ],
+      "properties": {
+        "strategy": { "const": "rename_same_filesystem" },
+        "same_filesystem": { "const": true },
+        "staging_complete_before_commit": { "const": true },
+        "formal_output_was_empty": { "const": true },
+        "cleanup_on_failure": { "const": true },
+        "committed": { "const": true }
+      }
+    },
+    "completeness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_item_count",
+        "rendered_item_count",
+        "silent_truncation",
+        "pagination_strategy",
+        "coverage_status"
+      ],
+      "properties": {
+        "source_item_count": { "type": "integer", "minimum": 1 },
+        "rendered_item_count": { "type": "integer", "minimum": 1 },
+        "silent_truncation": { "const": false },
+        "pagination_strategy": { "const": "deterministic_stable_role_pagination" },
+        "coverage_status": { "const": "complete" }
+      }
+    },
+    "privacy_output_scan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "scanner_version",
+        "receipt_sha256",
+        "artifact_sha256s",
+        "external_relationships",
+        "embedded_original_input"
+      ],
+      "properties": {
+        "status": { "const": "pass" },
+        "scanner_version": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "receipt_sha256": { "$ref": "#/$defs/sha256" },
+        "artifact_sha256s": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/sha256" }
+        },
+        "external_relationships": { "const": false },
+        "embedded_original_input": { "const": false }
+      }
+    },
+    "validations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": { "$ref": "#/$defs/validation" },
+      "allOf": [
+        {
+          "contains": {
+            "properties": { "format": { "const": "pptx" } },
+            "required": ["format"]
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": { "format": { "const": "html" } },
+            "required": ["format"]
+          },
+          "minContains": 0,
+          "maxContains": 1
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "format_selection": {
+            "properties": { "request_source": { "const": "omitted_default" } },
+            "required": ["request_source"]
+          }
+        },
+        "required": ["format_selection"]
+      },
+      "then": {
+        "properties": {
+          "requested": {
+            "prefixItems": [{ "const": "pptx" }],
+            "minItems": 1,
+            "maxItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "release_state": { "const": "REVIEW_DRAFT" } },
+        "required": ["release_state"]
+      },
+      "then": {
+        "properties": {
+          "produced": {
+            "items": {
+              "properties": {
+                "draft_watermark": { "const": true },
+                "client_release_receipt_sha256": { "type": "null" }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "release_state": { "const": "CLIENT_RELEASED" } },
+        "required": ["release_state"]
+      },
+      "then": {
+        "properties": {
+          "produced": {
+            "items": {
+              "properties": {
+                "draft_watermark": { "const": false },
+                "client_release_receipt_sha256": { "$ref": "#/$defs/sha256" }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "data_class": { "enum": ["synthetic", "deidentified"] },
+    "format": { "enum": ["pptx", "html"] },
+    "relative_path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "artifact_base": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "relative_path",
+        "sha256",
+        "size_bytes",
+        "media_type",
+        "single_file",
+        "offline",
+        "external_dependencies",
+        "native_editable_objects",
+        "draft_watermark",
+        "client_release_receipt_sha256"
+      ],
+      "properties": {
+        "format": { "$ref": "#/$defs/format" },
+        "relative_path": { "$ref": "#/$defs/relative_path" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "size_bytes": { "type": "integer", "minimum": 1 },
+        "media_type": { "type": "string", "minLength": 1, "maxLength": 96 },
+        "single_file": { "const": true },
+        "offline": { "const": true },
+        "external_dependencies": { "const": false },
+        "native_editable_objects": { "type": "boolean" },
+        "draft_watermark": { "type": "boolean" },
+        "client_release_receipt_sha256": {
+          "oneOf": [
+            { "$ref": "#/$defs/sha256" },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "artifact": {
+      "oneOf": [
+        {
+          "allOf": [
+            { "$ref": "#/$defs/artifact_base" },
+            {
+              "properties": {
+                "format": { "const": "pptx" },
+                "media_type": { "const": "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
+                "native_editable_objects": { "const": true }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/artifact_base" },
+            {
+              "properties": {
+                "format": { "const": "html" },
+                "media_type": { "const": "text/html" },
+                "native_editable_objects": { "const": false }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "validation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "format",
+            "status",
+            "receipt_sha256",
+            "native_editability",
+            "layout_overflow",
+            "external_relationships",
+            "macros_or_ole"
+          ],
+          "properties": {
+            "format": { "const": "pptx" },
+            "status": { "const": "pass" },
+            "receipt_sha256": { "$ref": "#/$defs/sha256" },
+            "native_editability": { "const": "pass" },
+            "layout_overflow": { "const": false },
+            "external_relationships": { "const": false },
+            "macros_or_ole": { "const": false }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "format",
+            "status",
+            "receipt_sha256",
+            "single_file",
+            "network_requests",
+            "external_assets",
+            "script_elements"
+          ],
+          "properties": {
+            "format": { "const": "html" },
+            "status": { "const": "pass" },
+            "receipt_sha256": { "$ref": "#/$defs/sha256" },
+            "single_file": { "const": true },
+            "network_requests": { "const": false },
+            "external_assets": { "const": false },
+            "script_elements": { "const": false }
+          }
+        }
+      ]
+    }
+  }
+}
