@@ -1,145 +1,197 @@
 {
-  "schema": "litigation-visualization.public-license-provenance/v2",
-  "release_state": "PUBLIC-BRANCH-DRAFT-PR-READY",
-  "package_license": "GPL-3.0-only",
-  "author_and_declared_rights_holder": "李时瑀律师",
-  "upload_intent": true,
-  "upload_executed": false,
   "actual_case_material_included": false,
-  "synthetic_fixture_only": true,
-  "third_party_dependencies_vendored": false,
+  "author_and_declared_rights_holder": "李时瑀律师",
   "authorization_scope": "repository update instruction only; not treated as independent third-party rights proof",
-  "historical_public_release": {
-    "repository": "Sven-Mirana/litigation-visualization-zh",
-    "tag": "v2026.07.28",
-    "commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
-    "tracked_file_count": 93,
-    "license": "MIT",
-    "license_sha256": "675909952f35a3e7c16d48a8bc49d5705d40c3b248d2fbb11e7f6bc32ca51aac",
-    "continuing_rights": "all rights already granted under MIT remain available for that historical material"
-  },
-  "license_rule": "unmodified historical components remain MIT; original portions of modified historical files retain MIT notice; R4 modifications, new code, and combined modified files are distributed under GPL-3.0-only",
   "entities": [
     {
+      "change": "byte-identical",
+      "current_sha256": "6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49",
+      "license": "MIT",
       "path": "package/viz-engine/mother-render_t4.py",
       "upstream_path": "viz-engine/mother-render_t4.py",
-      "upstream_sha256": "6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49",
-      "current_sha256": "6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49",
-      "change": "byte-identical",
-      "license": "MIT"
+      "upstream_sha256": "6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49"
     },
     {
+      "change": "modified",
+      "current_sha256": "244f28522958fccbeb301931fabe0d4b8b6676ebe06d6d1f7c67564128109608",
+      "modifications_and_combined_file_license": "GPL-3.0-only",
+      "original_portions_license": "MIT",
       "path": "package/viz-engine/mother-build_t4.py",
       "upstream_path": "viz-engine/mother-build_t4.py",
-      "upstream_sha256": "aefe84ed02020aa8d2c3b987b156eb95aa6b08fa31362bb4f85c5007fd4a164a",
-      "current_sha256": "244f28522958fccbeb301931fabe0d4b8b6676ebe06d6d1f7c67564128109608",
-      "change": "modified",
-      "original_portions_license": "MIT",
-      "modifications_and_combined_file_license": "GPL-3.0-only"
+      "upstream_sha256": "aefe84ed02020aa8d2c3b987b156eb95aa6b08fa31362bb4f85c5007fd4a164a"
     },
     {
+      "change": "modified",
+      "current_sha256": "f43cde7b75865335db22348d22738d08bb3b7155ed456eb49f62676c6a688688",
+      "modifications_and_combined_file_license": "GPL-3.0-only",
+      "original_portions_license": "MIT",
       "path": "package/tools/run_vis.py",
       "upstream_path": "tools/run_vis.py",
-      "upstream_sha256": "8f1f688c08a4cf9507af677927bd0f5520bf1a0accdde62ffab694fbf38bcb01",
-      "current_sha256": "f43cde7b75865335db22348d22738d08bb3b7155ed456eb49f62676c6a688688",
-      "change": "modified",
-      "original_portions_license": "MIT",
-      "modifications_and_combined_file_license": "GPL-3.0-only"
+      "upstream_sha256": "8f1f688c08a4cf9507af677927bd0f5520bf1a0accdde62ffab694fbf38bcb01"
     },
     {
+      "change": "documentation updated for R4 file set",
+      "current_sha256": "2c4b3311cda4eb3ffee178bcd2999aaced6b6a0d04aed6f0043361a49f3b28f6",
+      "modifications_license": "GPL-3.0-only",
+      "original_portions_license": "MIT",
       "path": "package/viz-engine/README-ENGINE.md",
       "upstream_path": "viz-engine/README-ENGINE.md",
-      "upstream_sha256": "6f9cd2a4ac3d9389177a2c5bc060fb646fde6dacb75494af9333e37d0a8bceee",
-      "current_sha256": "2c4b3311cda4eb3ffee178bcd2999aaced6b6a0d04aed6f0043361a49f3b28f6",
-      "change": "documentation updated for R4 file set",
-      "original_portions_license": "MIT",
-      "modifications_license": "GPL-3.0-only"
+      "upstream_sha256": "6f9cd2a4ac3d9389177a2c5bc060fb646fde6dacb75494af9333e37d0a8bceee"
     },
     {
+      "change": "historical MIT-derived documentation updated for isolated fixed r2 demo",
+      "current_hash_binding": "final PACKAGE-MANIFEST.json and SHA256SUMS.txt",
+      "current_sha256": "181a869937d3049558cf73026633f1f13b58a0b3dc78a16aa4792a69c62218c6",
+      "modifications_license": "GPL-3.0-only",
+      "original_portions_license": "MIT",
       "path": "README.md",
+      "public_r4_sha256": "14d4da6df450514e652e5cc72870c6430ae15d30dd19046de52d72c5a1cc00c1",
       "upstream_path": "README.md",
-      "upstream_sha256": "992b43d385824238ff9a298dfb36677552fbd857c42ecc76cf5df5f1d9c639b3",
-      "current_sha256": "14d4da6df450514e652e5cc72870c6430ae15d30dd19046de52d72c5a1cc00c1",
-      "change": "rewritten from historical MIT documentation",
-      "original_portions_license": "MIT",
-      "modifications_license": "GPL-3.0-only"
+      "upstream_sha256": "992b43d385824238ff9a298dfb36677552fbd857c42ecc76cf5df5f1d9c639b3"
     },
     {
+      "change": "historical MIT-derived documentation updated for isolated fixed r2 demo",
+      "current_hash_binding": "final PACKAGE-MANIFEST.json and SHA256SUMS.txt",
+      "current_sha256": "c0d1e45ab3d1b50eaee1499b32f0b3e6158cc9afb7c312e4cff234b5a3511c0b",
+      "modifications_license": "GPL-3.0-only",
+      "original_portions_license": "MIT",
       "path": "SKILL.md",
+      "public_r4_sha256": "99078a8276de60f7cf208a8fa4686cc68ccd157eae1a4f54eddf7d783c05cdb5",
       "upstream_path": "SKILL.md",
-      "upstream_sha256": "d6cea49ebd0e0221af80c9eab0fe2f6988bf350bd1c4821dcef84494bbc09e3d",
-      "current_sha256": "99078a8276de60f7cf208a8fa4686cc68ccd157eae1a4f54eddf7d783c05cdb5",
-      "change": "rewritten from historical MIT documentation",
-      "original_portions_license": "MIT",
-      "modifications_license": "GPL-3.0-only"
+      "upstream_sha256": "d6cea49ebd0e0221af80c9eab0fe2f6988bf350bd1c4821dcef84494bbc09e3d"
     },
     {
+      "change": "rewritten from historical MIT documentation",
+      "current_sha256": "e1cec066279d4c49ff57b7368c5e5783c8c786ef342deceb08fcf377467f09b1",
+      "modifications_license": "GPL-3.0-only",
+      "original_portions_license": "MIT",
       "path": "package/README.md",
       "upstream_path": "README.md",
-      "upstream_sha256": "992b43d385824238ff9a298dfb36677552fbd857c42ecc76cf5df5f1d9c639b3",
-      "current_sha256": "e1cec066279d4c49ff57b7368c5e5783c8c786ef342deceb08fcf377467f09b1",
-      "change": "rewritten from historical MIT documentation",
-      "original_portions_license": "MIT",
-      "modifications_license": "GPL-3.0-only"
+      "upstream_sha256": "992b43d385824238ff9a298dfb36677552fbd857c42ecc76cf5df5f1d9c639b3"
     },
     {
+      "change": "historical MIT-derived documentation updated for isolated fixed r2 demo",
+      "current_hash_binding": "final PACKAGE-MANIFEST.json and SHA256SUMS.txt",
+      "current_sha256": "8ef4e0b1e3b2d0d912e5ed01e1b60e6ffdafd61b3a3a3630486b9a8e433b9bbb",
+      "modifications_license": "GPL-3.0-only",
+      "original_portions_license": "MIT",
       "path": "package/SKILL.md",
+      "public_r4_sha256": "1438abd5663bf1a32a33d8b09af5dbea0ca474cb2efb88898e9026d031fd5120",
       "upstream_path": "SKILL.md",
-      "upstream_sha256": "d6cea49ebd0e0221af80c9eab0fe2f6988bf350bd1c4821dcef84494bbc09e3d",
-      "current_sha256": "1438abd5663bf1a32a33d8b09af5dbea0ca474cb2efb88898e9026d031fd5120",
-      "change": "rewritten from historical MIT documentation",
-      "original_portions_license": "MIT",
-      "modifications_license": "GPL-3.0-only"
+      "upstream_sha256": "d6cea49ebd0e0221af80c9eab0fe2f6988bf350bd1c4821dcef84494bbc09e3d"
     },
     {
+      "change": "byte-identical synthetic fixture",
+      "current_sha256": "c1e7b75d241eeb5a89d003a9c792fcd8e6bf26bf17d9b74b5c097a88bd94db4a",
+      "license": "MIT",
       "path": "package/fixtures/sample-case/07-诉讼案件办案方案工作底稿.md",
       "upstream_path": "fixtures/sample-case/07-诉讼案件办案方案工作底稿.md",
-      "upstream_sha256": "c1e7b75d241eeb5a89d003a9c792fcd8e6bf26bf17d9b74b5c097a88bd94db4a",
-      "current_sha256": "c1e7b75d241eeb5a89d003a9c792fcd8e6bf26bf17d9b74b5c097a88bd94db4a",
-      "change": "byte-identical synthetic fixture",
-      "license": "MIT"
+      "upstream_sha256": "c1e7b75d241eeb5a89d003a9c792fcd8e6bf26bf17d9b74b5c097a88bd94db4a"
     },
     {
+      "change": "byte-identical synthetic fixture",
+      "current_sha256": "0f74fb76456a0a901cb6d0bfad9233d270d254708d9c294d16d024c4673bf21f",
+      "license": "MIT",
       "path": "package/fixtures/sample-case/FROZEN-07-MANIFEST.json",
       "upstream_path": "fixtures/sample-case/FROZEN-07-MANIFEST.json",
-      "upstream_sha256": "0f74fb76456a0a901cb6d0bfad9233d270d254708d9c294d16d024c4673bf21f",
-      "current_sha256": "0f74fb76456a0a901cb6d0bfad9233d270d254708d9c294d16d024c4673bf21f",
-      "change": "byte-identical synthetic fixture",
-      "license": "MIT"
+      "upstream_sha256": "0f74fb76456a0a901cb6d0bfad9233d270d254708d9c294d16d024c4673bf21f"
     },
     {
+      "change": "byte-identical synthetic fixture",
+      "current_sha256": "a47fad30c1b86bcb7db400aad80893eddd20fd99d4da6b544c18a34ebe16227a",
+      "license": "MIT",
       "path": "package/fixtures/sample-case/TEXT-PASS-RECEIPT.json",
       "upstream_path": "fixtures/sample-case/TEXT-PASS-RECEIPT.json",
-      "upstream_sha256": "a47fad30c1b86bcb7db400aad80893eddd20fd99d4da6b544c18a34ebe16227a",
-      "current_sha256": "a47fad30c1b86bcb7db400aad80893eddd20fd99d4da6b544c18a34ebe16227a",
-      "change": "byte-identical synthetic fixture",
-      "license": "MIT"
+      "upstream_sha256": "a47fad30c1b86bcb7db400aad80893eddd20fd99d4da6b544c18a34ebe16227a"
     },
     {
-      "path": "package/fixtures/sample-case/CLIENT-DELIVERY-PROFILE.json",
-      "current_sha256": "3e8ee77a213acf449deef2018726e79dafbda320bc43e88fe782e7854161fc3e",
       "change": "new synthetic fixture",
-      "license": "GPL-3.0-only"
+      "current_sha256": "3e8ee77a213acf449deef2018726e79dafbda320bc43e88fe782e7854161fc3e",
+      "license": "GPL-3.0-only",
+      "path": "package/fixtures/sample-case/CLIENT-DELIVERY-PROFILE.json"
     },
     {
-      "scope": "package/client_delivery/** and package/tools/run_client_delivery.py",
-      "change": "R4 client-delivery implementation",
-      "license": "GPL-3.0-only"
+      "change": "R4 production implementation preserved unchanged by the r2 demo update",
+      "license": "GPL-3.0-only",
+      "scope": "package/client_delivery/** and package/tools/run_client_delivery.py"
     },
     {
-      "scope": "references/** and validation/**",
+      "change": "isolated r2 demo copy with fail-closed timeline classification and geometry changes; not the production engine",
+      "current_hash_binding": "final PACKAGE-MANIFEST.json and SHA256SUMS.txt",
+      "current_sha256": "787ea6438c34d16409fe542d9c8c8b5b60e390fd4d12f0af7704b82786c205e4",
+      "modifications_and_combined_file_license": "GPL-3.0-only",
+      "original_portions_license": "MIT",
+      "path": "package/timeline_demo/r2_engine/viz-engine/mother-build_t4.py",
+      "public_r4_sha256": "244f28522958fccbeb301931fabe0d4b8b6676ebe06d6d1f7c67564128109608",
+      "upstream_path": "viz-engine/mother-build_t4.py",
+      "upstream_sha256": "aefe84ed02020aa8d2c3b987b156eb95aa6b08fa31362bb4f85c5007fd4a164a"
+    },
+    {
+      "change": "modified isolated r2 demo renderer; not byte-identical to the historical MIT component and not the production renderer",
+      "current_hash_binding": "final PACKAGE-MANIFEST.json and SHA256SUMS.txt",
+      "current_sha256": "0f58406181d2d0bbc6571e03558948c6d1c3d8518ce755306a4fefd9de9babbf",
+      "modifications_and_combined_file_license": "GPL-3.0-only",
+      "original_portions_license": "MIT",
+      "path": "package/timeline_demo/r2_engine/viz-engine/mother-render_t4.py",
+      "public_r4_sha256": "6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49",
+      "upstream_path": "viz-engine/mother-render_t4.py",
+      "upstream_sha256": "6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49"
+    },
+    {
+      "change": "GPL-3.0-only r2 implementation isolated for the fixed synthetic demo; production modules are not replaced",
+      "license": "GPL-3.0-only",
+      "scope": "package/timeline_demo/r2_engine/client_delivery/**"
+    },
+    {
+      "change": "fixed synthetic IR, portable demo orchestration, native three-page drawio export, and demo documentation; no donor or viewer code copied",
+      "license": "GPL-3.0-only",
+      "scope": "package/timeline_demo/** except explicitly mapped MIT-derived engine files; package/tools/run_timeline_demo.py; package/requirements-timeline-demo.txt; RELEASE-NOTES-r2.md"
+    },
+    {
       "change": "R4 contracts, schemas, release gates, and tests",
-      "license": "GPL-3.0-only except historical portions explicitly mapped above"
+      "license": "GPL-3.0-only except historical portions explicitly mapped above",
+      "scope": "references/** and validation/**"
     },
     {
-      "scope": "root publication, governance, and checksum metadata",
-      "change": "R4 public-release metadata",
-      "license": "GPL-3.0-only"
+      "change": "R4 and r2-demo public-release metadata; internal formal-installation governance is excluded",
+      "license": "GPL-3.0-only",
+      "scope": "root publication, governance, and checksum metadata"
     }
   ],
+  "historical_public_release": {
+    "commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
+    "continuing_rights": "all rights already granted under MIT remain available for that historical material",
+    "license": "MIT",
+    "license_sha256": "675909952f35a3e7c16d48a8bc49d5705d40c3b248d2fbb11e7f6bc32ca51aac",
+    "repository": "Sven-Mirana/litigation-visualization-zh",
+    "tag": "v2026.07.28",
+    "tracked_file_count": 93
+  },
+  "license_rule": "unmodified historical components remain MIT; original portions of modified historical files retain MIT notice; R4 and r2-demo modifications, new code, and combined modified files are distributed under GPL-3.0-only",
+  "package_license": "GPL-3.0-only",
+  "public_update_base": {
+    "commit": "850494c404d91c7f9b891c358671a2a0051e9119",
+    "demo_runtime_scope": "package/timeline_demo/r2_engine/ only",
+    "donor_repository_code_copied": false,
+    "drawio_viewer_vendored": false,
+    "internal_governance_records_included": false,
+    "production_runtime_and_lock": "unchanged from this public base",
+    "profile": "existing R4 public subset, not a formal installation tree",
+    "repository": "Sven-Mirana/litigation-visualization-zh"
+  },
+  "release_state": "LOCAL-R2-DEMO-UPDATE-PENDING-VALIDATION-AND-UPLOAD",
+  "schema": "litigation-visualization.public-license-provenance/v2",
+  "state_scope": "pre-upload build snapshot for this version; external remote readback is the publication authority",
+  "synthetic_fixture_only": true,
   "third_party_dependencies": {
-    "vendored": false,
+    "demo_lockfile": "package/requirements-timeline-demo.txt",
+    "environment_separation": "demo and production locks are installed into separate external environments",
     "lockfile": "package/requirements-client-delivery.txt",
-    "notices": "NOTICE"
-  }
+    "notices": "NOTICE",
+    "vendored": false
+  },
+  "third_party_dependencies_vendored": false,
+  "upload_executed": false,
+  "upload_intent": true,
+  "version": "2026.08.30-r2-timeline-demo-gpl3"
 }

@@ -1,0 +1,39 @@
+{
+  "actual_public_demo_cli": {
+    "all_artifact_bytes_equal_approved_r2": true,
+    "artifact_count": 7,
+    "drawio_native_objects": 51,
+    "drawio_native_pages": 3,
+    "exit_code": 0
+  },
+  "current_validation_boundary": "Current execution verifies exact approved bytes, native objects, semantics, source isolation and offline structure; it does not rerun the historical renderer geometry audit.",
+  "demo_tests": {
+    "command": "python -B -m unittest discover -s package/tests -p test_timeline_demo.py -v",
+    "errors": 0,
+    "failed": 0,
+    "passed": 15,
+    "skipped": 0
+  },
+  "fresh_external_environments": true,
+  "git_remote_actions_attested": false,
+  "limits": {
+    "arbitrary_or_real_case_demo_input": false,
+    "client_court_release_authorized": false,
+    "general_drawio_conversion": false,
+    "linux_windows_tested": false,
+    "wps_powerpoint_drawio_desktop_manual_roundtrip_tested": false
+  },
+  "platform": "macOS arm64, Python 3.12.10",
+  "production_tests": {
+    "command": "python -B -m unittest discover -s validation -p 'test*.py' -v",
+    "errors": 0,
+    "failed": 0,
+    "live_chrome_screen_print_checks": true,
+    "passed": 74,
+    "skipped": 0
+  },
+  "schema": "litigation-visualization.release-tests/v1",
+  "skillhub_uploaded": false,
+  "status": "PASS",
+  "version": "2026.08.30-r2-timeline-demo-gpl3"
+}

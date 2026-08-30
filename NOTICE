@@ -1,7 +1,7 @@
-诉讼可视化 Skill 包 R4
+诉讼可视化 Skill 包 R4 + r2 固定合成演示
 Copyright (C) 2026 李时瑀律师
 
-仓库中 R4 新增内容、对旧 MIT 文件的修改以及这些部分的组合文件依据
+仓库中 R4 与 r2 演示新增内容、对旧 MIT 文件的修改以及这些部分的组合文件依据
 GNU General Public License version 3 only（SPDX: GPL-3.0-only）提供；完整文本见
 LICENSE。
 
@@ -30,6 +30,18 @@ R4 不撤销接收者已经取得的 MIT 权利。完整原 MIT 文本见 `LICEN
 
 逐实体路径、旧/新哈希和许可处理见 `LICENSE-PROVENANCE.json`。
 
+隔离 r2 演示副本
+----------------
+
+原 `package/client_delivery/`、`package/viz-engine/`、两条生产入口和生产依赖锁
+保持 R4 公开基底字节。`package/timeline_demo/r2_engine/` 是独立演示副本：其中
+`viz-engine/mother-build_t4.py` 与 `mother-render_t4.py` 分别源于上述 MIT 文件，
+原部分仍保留 MIT 通知，本轮修改与组合文件按 GPL-3.0-only 提供。演示 renderer
+已修改，不能与原生产 renderer 的“原字节 MIT”身份混同。
+
+固定合成 IR、演示编排和原生三页 draw.io 导出代码按 GPL-3.0-only 提供。本更新未
+复制 donor 仓库代码，未内嵌 draw.io viewer 或其他第三方运行库。
+
 未内嵌第三方依赖
 ----------------
 
@@ -38,6 +50,10 @@ R4 不撤销接收者已经取得的 MIT 权利。完整原 MIT 文本见 `LICEN
 - XlsxWriter 3.2.9 — BSD-2-Clause；typing-extensions 4.15.0 — PSF-2.0。
 - attrs、jsonschema-specifications、referencing、rpds-py — MIT。
 - Playwright 1.59.0 — Apache-2.0；pyee — MIT；greenlet — MIT AND PSF-2.0。
+
+上述为未改动的 R4 生产锁。演示使用独立 `package/requirements-timeline-demo.txt`，
+其中 Pillow 12.3.0 保留 MIT-CMU、typing-extensions 4.16.0 保留 PSF-2.0；其他
+选用依赖保持各自原许可。两套锁应安装于不同的包外环境，不互相覆盖。
 
 这些依赖没有复制进仓库。本包不包含 `@oai/artifact-tool`。
 

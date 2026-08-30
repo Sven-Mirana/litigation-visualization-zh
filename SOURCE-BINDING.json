@@ -1,10 +1,12 @@
 {
-  "schema": "litigation-visualization.public-source-binding/v2",
+  "actual_case_material_included": false,
+  "approved_r2_ir_sha256": "9a5d162d532133c32877bc32c2d5add9ada348f3ff971b61e3c1424f3123b894",
+  "demo_scope": "isolated exact-byte synthetic example, not a general production format",
   "historical_public_base": {
-    "repository": "Sven-Mirana/litigation-visualization-zh",
     "branch": "main",
-    "tag": "v2026.07.28",
     "commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
+    "repository": "Sven-Mirana/litigation-visualization-zh",
+    "tag": "v2026.07.28",
     "tracked_file_count": 93
   },
   "r4_packaging_input": {
@@ -14,6 +16,9 @@
     "source_tree_sha256": "3c1e91c48708a1604b995d2c15dc76c6a9a7660e9725f204994ac2c4e3b709f2",
     "technical_freeze_sha256": "d276ad86755da057f8195224791913440783b4d1ed4fd128795e058da24f8184"
   },
+  "remote_write_performed_during_build": false,
+  "schema": "litigation-visualization.public-source-binding/v3",
+  "source_absolute_paths_archived": false,
   "transformation_scope": [
     "preserve root and package GPL-3.0-only license texts",
     "restore full historical MIT text and per-entity lineage",
@@ -21,7 +26,30 @@
     "repair stale paths to non-distributed payload and recovery files",
     "add public branch, draft PR, privacy, checksum, and CI gates"
   ],
-  "source_absolute_paths_archived": false,
-  "actual_case_material_included": false,
-  "remote_write_performed_during_build": false
+  "unchanged_public_r4_production_files": {
+    "package/client_delivery/__init__.py": "3f466e99a6b0110a5e400be7485db5e70eadd3411c48534391cdac1d74d7a8bd",
+    "package/client_delivery/delivery_ir.py": "c93726b31984938946953a491d8937437fd4410592edef5f853c31de52e676e6",
+    "package/client_delivery/html_qa.py": "5b96d728d70d2af03afc19d7869a26fda3890a2961b5068c6ae6e845a127e6a6",
+    "package/client_delivery/html_static_ledger.py": "f27fc8e82ff876af26494b0eeb67280c879838380c68fd41af367124b625ba51",
+    "package/client_delivery/html_writer.py": "48de3fe71aa225433939118844cd94936c7b36fe31196cedfea97324b8d5c1af",
+    "package/client_delivery/input_gate.py": "40e868a754e44f69ed98b2d5814eb8fe97473b03802fd26b8c824245727019f0",
+    "package/client_delivery/pptx_writer.py": "3c4fd670f973d5d7798f66816b6e78d06e9ecaa170ca85019801b5aefd4f90f0",
+    "package/client_delivery/semantic_inventory.py": "04a998fd9a659710467703ce19af3a8a41b010e3c2aec5ecc317b041a252599d",
+    "package/client_delivery/verify.py": "652761b6db3aa7208f2565c2df6a1571fc97d6bc00065d3dd53e206fd29087aa",
+    "package/requirements-client-delivery.txt": "70fd063136e49491cdf58effd27eb00bebb31a67fc3ee3996f6ba442ef52099d",
+    "package/tools/run_client_delivery.py": "ce3ba575f375c4711bd0fa17499a865576e99f08f5e9874d9af0f3f4eba493ea",
+    "package/tools/run_vis.py": "f43cde7b75865335db22348d22738d08bb3b7155ed456eb49f62676c6a688688",
+    "package/viz-engine/README-ENGINE.md": "2c4b3311cda4eb3ffee178bcd2999aaced6b6a0d04aed6f0043361a49f3b28f6",
+    "package/viz-engine/mother-build_t4.py": "244f28522958fccbeb301931fabe0d4b8b6676ebe06d6d1f7c67564128109608",
+    "package/viz-engine/mother-render_t4.py": "6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49",
+    "references/contracts/artifact-manifest-v1.schema.json": "ecbebb663dd7b209f1ee28761bd97f741075570ea67f0a26563ca8ff616f76ef",
+    "references/contracts/artifact-manifest-v2.schema.json": "4698399f9912214bcdf94e68dc7c2a0aa3fde3d701a6452338b41bcfef71e5b7",
+    "references/contracts/client-release-receipt-v1.schema.json": "6a504f25f2f62ef1d3d3c5038e46d45d78af9e2aa925efa3000483eb521314ba",
+    "references/contracts/confirmation-receipt-v1.schema.json": "0870b368497ca1b96b7568846d8b628ded2ed53e4d2e002929f86cc521c39991",
+    "references/contracts/delivery-ir-v1.schema.json": "3a31577e5519026a302f51c22e94d8bcb67692469c24f8166f72dbac3f8e4c99",
+    "references/contracts/failure-receipt-v1.schema.json": "076c0c6b556f3890eadff6786be4b0cac772a6d00fe895e6f459d120171a55bf",
+    "references/contracts/failure-receipt-v2.schema.json": "f8d34c9bddd66c7a60443c1f42949f52daadc6887e33e8b4508ecbb94855fbd4",
+    "references/contracts/render-ir-v1.schema.json": "a1c5faf5c55fe6938ba7f17bf113d2d27e0aa58697c7a656b62ab73f34200a07"
+  },
+  "version": "2026.08.30-r2-timeline-demo-gpl3"
 }

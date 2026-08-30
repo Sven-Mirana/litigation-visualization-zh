@@ -1,49 +1,66 @@
-# 诉讼可视化 R4 简体中文公开更新
+# 诉讼可视化：固定时间线 r2 演示
 
-R4 在同案 `TEXT PASS`、冻结 07 与 A01-A09 锚集闭合后，生成原生可编辑
-PPTX 与单文件离线 HTML。固定界面、状态标记、母版语言和默认字体已适配中国大陆
-简体中文环境。没有有效人工放行收据时，输出始终是 `REVIEW_DRAFT`，可见状态为
-“审阅稿”。
+版本：`2026.08.30-r2-timeline-demo-gpl3`。
 
-## 发布状态
+本次新增一个独立的固定合成演示：用同一份三事件 DeliveryIR 比较 Control、A、B
+三种时间线版式，并生成原生可编辑的三页 draw.io 文件。既有 R4 生产入口、生产
+引擎和 `package/requirements-client-delivery.txt` 保持不变；本次没有把 A/B 或
+draw.io 加入通用客户交付格式。
 
-本树已达到公开分支与草稿 PR 的本地发布门，目标仓库、分支以及尚未执行的远端动作
-见 `PUBLICATION.json`。本地发布就绪不表示分支已经推送或 PR 已创建，也不等于客户
-交付、法院提交或真实案件材料可以公开。
+## 新演示能做什么
 
-仓库主许可证为 `GPL-3.0-only`，完整文本见 `LICENSE`。公开历史版本
-`v2026.07.28`（commit `dedb6402fbe74958062a2d2126dda52411095ee5`）原有的
-MIT 权利继续有效；原样保留或由其修改的文件、完整 MIT 文本及逐实体映射分别见
-`LICENSES/MIT.txt`、`NOTICE` 和 `LICENSE-PROVENANCE.json`。
+- Control：旧版竖轨卡片版式；A：横向日期比例轴；B：纵向卷宗登记簿。
+- 三版只改变版式，消费相同的固定三事件、文字、日期、来源与语义标识。
+- 生成 Control/A/B 各一份 PPTX 和离线 HTML，共六个主体产物；另生成包含三种
+  时间线页的原生 `.drawio` 文件，不是三份完整简报的转换。
+- draw.io 中的文字和形状可编辑；细轴线/引线保持原生细矩形，不宣称是绑定节点的
+  连接器。预览图不能替代可编辑文件。
+- 演示只接受包内固定合成 IR，不接受真实案件或任意事实输入。它不是通用 A/B
+  排版器、通用 PPTX 转换器或 `run_client_delivery.py --format drawio`。
 
-## 目录
+全部演示产物保持 `synthetic / REVIEW_DRAFT`，可见状态为“审阅稿”。固定三事件
+通过不证明复杂案件覆盖、事实/法律正确性、WPS/PowerPoint 或 draw.io Desktop
+人工打开、编辑、另存及打印验收。
 
-- `package/tools/run_vis.py`：冻结 S1 四图入口。
-- `package/tools/run_client_delivery.py`：R4 客户审阅稿入口。
-- `package/client_delivery/`：输入门、DeliveryIR、PPTX/HTML 生产与验证。
-- `package/viz-engine/`：旧 MIT 引擎及其 R4 修改版。
-- `package/fixtures/sample-case/`：仅含明确标注的合成测试材料。
-- `references/`：公开契约与 schema；不是案件资料。
-- `validation/`：74 项回归测试和公开发布隐私门。
+## 入口与环境
 
-旧公开仓库的 93 文件布局到本树的迁移说明见 `PULL-REQUEST-DRAFT.md`。已删除的
-`payload-legacy-skill/`、`payload-frozen-contract-r2/` 和 recovery 脚本不是 R4
-运行依赖，任何旧路径调用方必须迁移到上面的 `package/` 入口。
+- 固定演示入口：`package/tools/run_timeline_demo.py`。
+- 隔离演示引擎：`package/timeline_demo/r2_engine/`；不替换生产模块。
+- 演示依赖：`package/requirements-timeline-demo.txt`，其中 Pillow 为 12.3.0、
+  typing-extensions 为 4.16.0；第三方依赖不内嵌。
+- 原生产入口仍为 `package/tools/run_vis.py` 和
+  `package/tools/run_client_delivery.py`；原生产依赖锁单独保留。
 
-## 环境与测试
-
-- Python 3.12；依赖见 `package/requirements-client-delivery.txt`。
-- 完整回归在 macOS 与 Google Chrome 完成；不得据此声称 Linux/Windows 已验证。
-- 依赖只能安装在仓库外的隔离虚拟环境，本仓库不 vendor 第三方依赖。
+Python 3.12 示例（演示与生产使用不同的包外虚拟环境）：
 
 ```bash
-python3 -m venv /tmp/lv-r4-venv
-/tmp/lv-r4-venv/bin/pip install -r package/requirements-client-delivery.txt
-PYTHONDONTWRITEBYTECODE=1 /tmp/lv-r4-venv/bin/python -B -m unittest \
-  discover -s validation -p 'test*.py' -v
-shasum -a 256 -c SHA256SUMS.txt
-PYTHONDONTWRITEBYTECODE=1 python3 -B validation/check_public_release.py
+python3 -m venv /tmp/lv-timeline-demo-venv
+/tmp/lv-timeline-demo-venv/bin/pip install -r package/requirements-timeline-demo.txt
+/tmp/lv-timeline-demo-venv/bin/python -B package/tools/run_timeline_demo.py --help
+/tmp/lv-timeline-demo-venv/bin/python -B package/tools/run_timeline_demo.py --out ../timeline-demo-output
 ```
 
-任何生成成功、结构 PASS、截图或 agent 回执都不等于事实、法律、隐私、客户或
-法院放行。
+输出目录必须尚不存在，其父目录必须存在且路径不能含符号链接。不要把演示依赖
+覆盖到原生产环境。本次在 macOS 的全新包外环境中，生产回归 74 项、演示测试 15 项
+通过；实际 CLI 七个产物与批准样例字节一致。详见 `VALIDATION.json`，不推定
+Linux/Windows 或桌面软件人工往返已验证。
+
+## 原生产契约不变
+
+R4 仍只在同案 `TEXT PASS`、独立冻结 07 与 A01-A09 锚集闭合后，生成原生可编辑
+PPTX 与单文件离线 HTML。未获得绑定确切产物哈希的有效人工放行收据时，状态保持
+`REVIEW_DRAFT`。固定合成演示不能绕过真实案件的事实、证据、法律、隐私和人工门。
+
+## 来源、许可与发布状态
+
+本更新基于已公开 R4 分支 `850494c404d91c7f9b891c358671a2a0051e9119` 的精简
+公开树增量构建，不分发本机完整安装树、历史 payload、内部治理记录或真实案件。
+`PULL-REQUEST-DRAFT.md` 是 R4 历史迁移说明，不是本版本当前发布收据。
+
+主许可证为 `GPL-3.0-only`；旧公开 `v2026.07.28` 的 MIT 权利继续有效。完整许可、
+MIT 通知和逐实体来源见 `LICENSE`、`LICENSES/MIT.txt`、`NOTICE` 与
+`LICENSE-PROVENANCE.json`。没有复制 donor 仓库代码或内嵌 draw.io viewer。
+
+`PUBLICATION.json` 记录本轮构建时的发布意图和历史基线；实际推送、合并或 Release
+须以构建树外的远端回读收据为准。本文不宣称这些动作已经完成。源码分发、安装和
+演示生成均不等于真实案件外发、客户交付、GEO 激活或法院提交。

@@ -1,7 +1,7 @@
 ---
 name: litigation-visualization
-description: 用于在同案 TEXT PASS 后，以独立冻结 07 与 A01-A09 精确锚集生成诉讼视图，并通过 R4 客户交付门默认生成可编辑 PPTX、按需生成离线 HTML；全部未获人工放行的产物保持 REVIEW_DRAFT 和可见“审阅稿”标记。
-version: 2026.08.16-r4-zh-cn-gpl3
+description: 在同案 TEXT PASS 后沿用 R4 门生成 PPTX 或离线 HTML 审阅稿；另提供隔离的固定三事件 Control/A/B 时间线及三页 draw.io 演示。演示不接受真实案件，不扩展通用客户交付格式；未获人工放行的产物保持 REVIEW_DRAFT。
+version: 2026.08.30-r2-timeline-demo-gpl3
 author: 李时瑀律师
 license: GPL-3.0-only
 metadata:
@@ -9,7 +9,7 @@ metadata:
   client_delivery_runtime: python-pptx-1.0.2
 ---
 
-# 诉讼可视化 Skill（R4 简体中文公开版）
+# 诉讼可视化 Skill（R4 生产入口 + r2 固定合成演示）
 
 仓库主许可为 `GPL-3.0-only`；旧 MIT 文件及修改来源保留原通知，详见
 `LICENSE-PROVENANCE.json`、`NOTICE` 和 `LICENSES/MIT.txt`。程序许可不授予案件
@@ -20,6 +20,21 @@ metadata:
 - 先读取 `package/SKILL.md`。
 - 冻结 S1 四图入口：`package/tools/run_vis.py`。
 - R4 客户审阅稿入口：`package/tools/run_client_delivery.py`。
+- 固定合成演示入口：`package/tools/run_timeline_demo.py`。只有用户请求演示
+  Control/A/B 版式或三页 draw.io 时使用；不要把实际案件路由到这个入口。
+
+## r2 演示边界
+
+- 只读取包内固定三事件 DeliveryIR；不接受任意案件、事件或外部事实输入。
+- 同一 IR 生成 Control/A/B 各一份 PPTX、HTML，再导出三页原生可编辑 draw.io。
+- A 为横向日期比例轴，B 为纵向卷宗登记簿，Control 保留旧版竖轨卡片版式；
+  不修改文字、日期、顺序、source/semantic IDs。
+- 演示引擎位于 `package/timeline_demo/r2_engine/`，与原生产模块隔离。
+  原 R4 生产代码与 `package/requirements-client-delivery.txt` 均不变；演示
+  使用单独的 `package/requirements-timeline-demo.txt` 和包外环境。
+- 这不是通用 A/B 排版或 draw.io 客户交付路线，不得向旧生产入口添加或虚构
+  `--format drawio`。演示完成不能作为真实案件覆盖或人工编辑/另存验收证明。
+- 状态始终为 `synthetic / REVIEW_DRAFT`；无真实案件放行或对外提交权限。
 
 ## 强制边界
 
@@ -46,5 +61,6 @@ metadata:
 `failure-receipt-v1` 只服务冻结 S1；`failure-receipt-v2` 只服务 R4 客户交付事务。
 失败收据只能证明失败、清理与零提交，不能充当成功、客户放行或法院提交证据。
 
-源代码公开更新状态见 `PUBLICATION.json`。公开源码不等于自动安装、真实案件外发、
-客户放行、GEO 激活或法院提交；这些动作仍需各自的人工授权与证据。
+`PUBLICATION.json` 是本轮构建时的发布意图和历史状态，不是推送完成证明；实际远端
+动作以树外发布回读收据为准。公开源码不等于自动安装、真实案件外发、客户放行、
+GEO 激活或法院提交；这些动作仍需各自的人工授权与证据。
