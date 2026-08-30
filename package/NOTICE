@@ -14,33 +14,31 @@ R4 不撤销接收者已经取得的 MIT 权利。完整原 MIT 文本见 `LICEN
 
 以下实体保留明确的 MIT 来源声明：
 
-- `package/viz-engine/mother-render_t4.py`：旧版原字节 MIT 组件，SHA-256
+- `viz-engine/mother-render_t4.py`：旧版原字节 MIT 组件，SHA-256
   `6447260c9f966dda4b937c17a359021e9be5eece56172c1949c5872ee81c2f49`。
-- `package/viz-engine/mother-build_t4.py`：基于旧 MIT 文件
+- `viz-engine/mother-build_t4.py`：基于旧 MIT 文件
   `aefe84ed02020aa8d2c3b987b156eb95aa6b08fa31362bb4f85c5007fd4a164a`
   修改；原部分保留 MIT，R4 修改和组合文件按 GPL-3.0-only 分发。
-- `package/tools/run_vis.py`：基于旧 MIT runner
+- `tools/run_vis.py`：基于旧 MIT runner
   `8f1f688c08a4cf9507af677927bd0f5520bf1a0accdde62ffab694fbf38bcb01`
   修改；原部分保留 MIT，R4 修改和组合文件按 GPL-3.0-only 分发。
-- `package/viz-engine/README-ENGINE.md`、根与 package 的 README/SKILL：基于旧
-  MIT 文档演进，R4 修改按 GPL-3.0-only 提供。
-- `package/fixtures/sample-case/` 中工作底稿、冻结 manifest 和 TEXT PASS 收据：
-  旧版原字节 MIT 合成样例；`CLIENT-DELIVERY-PROFILE.json` 为 R4 新增 GPL
-  合成样例。
+- `viz-engine/README-ENGINE.md`、README 与 SKILL：基于旧 MIT 文档演进，R4
+  修改按 GPL-3.0-only 提供。
+- `fixtures/sample-case/` 中工作底稿、冻结 manifest 和 TEXT PASS 收据：旧版
+  原字节 MIT 合成样例；`CLIENT-DELIVERY-PROFILE.json` 为 R4 新增 GPL 合成样例。
 
 逐实体路径、旧/新哈希和许可处理见 `LICENSE-PROVENANCE.json`。
 
 隔离 r2 演示副本
 ----------------
 
-原 `package/client_delivery/`、`package/viz-engine/`、两条生产入口和生产依赖锁
-保持 R4 公开基底字节。`package/timeline_demo/r2_engine/` 是独立演示副本：其中
-`viz-engine/mother-build_t4.py` 与 `mother-render_t4.py` 分别源于上述 MIT 文件，
-原部分仍保留 MIT 通知，本轮修改与组合文件按 GPL-3.0-only 提供。演示 renderer
-已修改，不能与原生产 renderer 的“原字节 MIT”身份混同。
+原 `client_delivery/`、`viz-engine/`、两条生产入口和生产依赖锁保持 R4 公开基底
+字节。`timeline_demo/r2_engine/` 是独立演示副本：其中两份 `viz-engine/mother-*`
+文件基于上述旧 MIT 文件修改，保留 MIT 原通知，修改及组合文件按 GPL-3.0-only
+分发。演示 renderer 已修改，不得称为原字节 MIT 组件。
 
-固定合成 IR、演示编排和原生三页 draw.io 导出代码按 GPL-3.0-only 提供。本更新未
-复制 donor 仓库代码，未内嵌 draw.io viewer 或其他第三方运行库。
+固定合成 IR、演示编排和原生三页 draw.io 导出代码按 GPL-3.0-only 提供；没有复制
+donor 仓库代码或内嵌 draw.io viewer、第三方依赖。
 
 未内嵌第三方依赖
 ----------------
@@ -51,9 +49,9 @@ R4 不撤销接收者已经取得的 MIT 权利。完整原 MIT 文本见 `LICEN
 - attrs、jsonschema-specifications、referencing、rpds-py — MIT。
 - Playwright 1.59.0 — Apache-2.0；pyee — MIT；greenlet — MIT AND PSF-2.0。
 
-上述为未改动的 R4 生产锁。演示使用独立 `package/requirements-timeline-demo.txt`，
-其中 Pillow 12.3.0 保留 MIT-CMU、typing-extensions 4.16.0 保留 PSF-2.0；其他
-选用依赖保持各自原许可。两套锁应安装于不同的包外环境，不互相覆盖。
+上述生产锁保持不变。独立 `requirements-timeline-demo.txt` 使用 Pillow 12.3.0
+（MIT-CMU）和 typing-extensions 4.16.0（PSF-2.0）；其他选用依赖保留各自许可。
+演示与生产依赖须安装在不同的包外环境。
 
 这些依赖没有复制进仓库。本包不包含 `@oai/artifact-tool`。
 

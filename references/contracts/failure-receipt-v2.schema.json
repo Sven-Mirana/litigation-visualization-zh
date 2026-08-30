@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sublation:litigation-visualization:failure-receipt:2.0",
+  "title": "Fail-closed client-delivery receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "failure_event_id",
+    "run_id",
+    "case_ref",
+    "data_class",
+    "delivery_ir_sha256",
+    "requested",
+    "failures",
+    "exit_code",
+    "staging_inventory_before_cleanup",
+    "staging_deleted",
+    "formal_output_inventory_before_sha256",
+    "formal_output_inventory_after_sha256",
+    "formal_output_unchanged",
+    "produced_committed",
+    "partial_success",
+    "manifest_committed",
+    "atomic_strategy"
+  ],
+  "properties": {
+    "schema_version": { "const": "failure-receipt/2.0" },
+    "failure_event_id": { "$ref": "#/$defs/id" },
+    "run_id": { "$ref": "#/$defs/id" },
+    "case_ref": { "$ref": "#/$defs/id" },
+    "data_class": { "$ref": "#/$defs/data_class" },
+    "delivery_ir_sha256": {
+      "oneOf": [
+        { "$ref": "#/$defs/sha256" },
+        { "type": "null" }
+      ]
+    },
+    "requested": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/format" }
+    },
+    "failures": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/failure" }
+    },
+    "exit_code": { "type": "integer", "minimum": 1, "maximum": 255 },
+    "staging_inventory_before_cleanup": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/inventory_item" }
+    },
+    "staging_deleted": { "const": true },
+    "formal_output_inventory_before_sha256": { "$ref": "#/$defs/sha256" },
+    "formal_output_inventory_after_sha256": { "$ref": "#/$defs/sha256" },
+    "formal_output_unchanged": { "const": true },
+    "produced_committed": { "type": "array", "maxItems": 0 },
+    "partial_success": { "const": false },
+    "manifest_committed": { "const": false },
+    "atomic_strategy": { "const": "rename_same_filesystem" }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "data_class": { "enum": ["synthetic", "deidentified", "unknown"] },
+    "format": { "enum": ["pptx", "html"] },
+    "relative_path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "format", "failure_code", "message"],
+      "properties": {
+        "stage": {
+          "enum": [
+            "input_gate",
+            "delivery_ir",
+            "pptx_write",
+            "html_write",
+            "format_validation",
+            "privacy_scan",
+            "completeness_check",
+            "atomic_commit"
+          ]
+        },
+        "format": {
+          "oneOf": [
+            { "$ref": "#/$defs/format" },
+            { "type": "null" }
+          ]
+        },
+        "failure_code": {
+          "enum": [
+            "INPUT_INVALID",
+            "ENGINE_UNAVAILABLE",
+            "FORMAT_WRITE_FAILED",
+            "FORMAT_VALIDATION_FAILED",
+            "NATIVE_EDITABILITY_FAILED",
+            "OFFLINE_HTML_FAILED",
+            "LAYOUT_OVERFLOW",
+            "PROVENANCE_GAP",
+            "PRIVACY_SCAN_FAILED",
+            "SILENT_TRUNCATION_DETECTED",
+            "REQUESTED_PRODUCED_MISMATCH",
+            "ATOMIC_COMMIT_FAILED"
+          ]
+        },
+        "message": { "type": "string", "minLength": 1, "maxLength": 500 }
+      }
+    },
+    "inventory_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relative_path", "sha256", "size_bytes"],
+      "properties": {
+        "relative_path": { "$ref": "#/$defs/relative_path" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "size_bytes": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

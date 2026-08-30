@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sublation:litigation-visualization:artifact-manifest:1.0",
+  "title": "Requested-versus-produced atomic artifact manifest (spec-only)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "render_id",
+    "render_ir_sha256",
+    "confirmation_receipt_id",
+    "confirmation_receipt_sha256",
+    "scene_graph_sha256",
+    "requested",
+    "produced",
+    "partial_success_authorized",
+    "overall_status",
+    "atomic_commit",
+    "geometry_verification",
+    "privacy_output_scan"
+  ],
+  "properties": {
+    "schema_version": { "const": "artifact-manifest/1.0" },
+    "render_id": { "$ref": "#/$defs/id" },
+    "render_ir_sha256": { "$ref": "#/$defs/sha256" },
+    "confirmation_receipt_id": { "$ref": "#/$defs/id" },
+    "confirmation_receipt_sha256": { "$ref": "#/$defs/sha256" },
+    "scene_graph_sha256": { "$ref": "#/$defs/sha256" },
+    "requested": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/request" }
+    },
+    "produced": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "partial_success_authorized": { "const": false },
+    "overall_status": { "const": "complete" },
+    "atomic_commit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "same_filesystem",
+        "staging_complete_before_commit",
+        "formal_output_was_empty",
+        "cleanup_on_failure",
+        "committed"
+      ],
+      "properties": {
+        "strategy": { "const": "rename_same_filesystem" },
+        "same_filesystem": { "const": true },
+        "staging_complete_before_commit": { "const": true },
+        "formal_output_was_empty": { "const": true },
+        "cleanup_on_failure": { "const": true },
+        "committed": { "const": true }
+      }
+    },
+    "geometry_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["basis", "tolerance_pt", "formats"],
+      "properties": {
+        "basis": { "const": "single_scene_graph" },
+        "tolerance_pt": { "type": "number", "minimum": 0, "maximum": 0.5 },
+        "formats": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/geometry_result" }
+        }
+      }
+    },
+    "privacy_output_scan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "scanner_version", "receipt_relative_path", "receipt_sha256", "artifact_sha256s"],
+      "properties": {
+        "status": { "const": "pass" },
+        "scanner_version": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "receipt_relative_path": { "$ref": "#/$defs/relative_path" },
+        "receipt_sha256": { "$ref": "#/$defs/sha256" },
+        "artifact_sha256s": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/sha256" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "format": { "enum": ["svg", "png", "pptx", "vsdx", "drawio"] },
+    "relative_path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format"],
+      "properties": { "format": { "$ref": "#/$defs/format" } }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "relative_path",
+        "sha256",
+        "size_bytes",
+        "scene_graph_sha256",
+        "provenance_index_relative_path",
+        "provenance_index_sha256",
+        "editable",
+        "status"
+      ],
+      "properties": {
+        "format": { "$ref": "#/$defs/format" },
+        "relative_path": { "$ref": "#/$defs/relative_path" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "size_bytes": { "type": "integer", "minimum": 1 },
+        "scene_graph_sha256": { "$ref": "#/$defs/sha256" },
+        "provenance_index_relative_path": { "$ref": "#/$defs/relative_path" },
+        "provenance_index_sha256": { "$ref": "#/$defs/sha256" },
+        "editable": { "type": "boolean" },
+        "status": { "const": "produced" }
+      }
+    },
+    "geometry_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "geometry_index_relative_path",
+        "geometry_index_sha256",
+        "anchor_set_sha256",
+        "max_anchor_delta_pt",
+        "status"
+      ],
+      "properties": {
+        "format": { "$ref": "#/$defs/format" },
+        "geometry_index_relative_path": { "$ref": "#/$defs/relative_path" },
+        "geometry_index_sha256": { "$ref": "#/$defs/sha256" },
+        "anchor_set_sha256": { "$ref": "#/$defs/sha256" },
+        "max_anchor_delta_pt": { "type": "number", "minimum": 0 },
+        "status": { "const": "pass" }
+      }
+    }
+  }
+}

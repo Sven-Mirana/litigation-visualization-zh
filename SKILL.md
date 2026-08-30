@@ -1,34 +1,66 @@
 ---
 name: litigation-visualization
-display_name: 诉讼可视化Skill包
-version: 2026-07-28-desktop-delivery
+description: 在同案 TEXT PASS 后沿用 R4 门生成 PPTX 或离线 HTML 审阅稿；另提供隔离的固定三事件 Control/A/B 时间线及三页 draw.io 演示。演示不接受真实案件，不扩展通用客户交付格式；未获人工放行的产物保持 REVIEW_DRAFT。
+version: 2026.08.30-r2-timeline-demo-gpl3
 author: 李时瑀律师
-license: MIT
+license: GPL-3.0-only
+metadata:
+  source_package_id: litigation-visualization
+  client_delivery_runtime: python-pptx-1.0.2
 ---
 
-# 诉讼可视化Skill包
+# 诉讼可视化 Skill（R4 生产入口 + r2 固定合成演示）
 
-## 用途
+仓库主许可为 `GPL-3.0-only`；旧 MIT 文件及修改来源保留原通知，详见
+`LICENSE-PROVENANCE.json`、`NOTICE` 和 `LICENSES/MIT.txt`。程序许可不授予案件
+事实、证据、个人信息、客户材料、商标或其他第三方内容的权利。
 
-诉讼材料→可编辑图表（时间线/关系图/流向图/程序图/证据矩阵/空间示意），来源绑定事实模型+授权安全门。
+## 使用入口
 
-## 核心契约
+- 先读取 `package/SKILL.md`。
+- 冻结 S1 四图入口：`package/tools/run_vis.py`。
+- R4 客户审阅稿入口：`package/tools/run_client_delivery.py`。
+- 固定合成演示入口：`package/tools/run_timeline_demo.py`。只有用户请求演示
+  Control/A/B 版式或三页 draw.io 时使用；不要把实际案件路由到这个入口。
 
-- 九文书主链：恰 9 DOCX＋9 PDF＋全页 PNG；Markdown/JSON 仅审计侧件不得替代 DOCX；法院四件（01/02/05/06）过法院格式门（中文字体字号/行距/页边距/页眉页脚/页码；02=六列真 OOXML 表＋首行跨页重复表头＋行禁拆；零乱码零非必要英文标签）。
-- 诉讼可视化（VIS）：默认关闭；唯一输入=同案独立 `frozen-07`＋`A01-A09` 精确锚集；四视图（01主体关系图/02关键事件时间线/03要件证据矩阵/04阶段计划与风险）SVG＋PNG；不回写文本链；TEXT 未过/冻结07缺失/哈希不符/跨案/锚集失配/关闭态有产物一律 fail-closed。
-- 封装前脱敏：签名库仅存 (length, SHA-256) 零明文，金丝雀运行时拼接，可见层四层扫描（MD/DOCX 全 XML/PDF 文本/SVG 文本）。
-- GEO：实体与可执行自测保留；activation/public_projection/release 均 false 待权利人另批。
+## r2 演示边界
 
-## 内容布局
+- 只读取包内固定三事件 DeliveryIR；不接受任意案件、事件或外部事实输入。
+- 同一 IR 生成 Control/A/B 各一份 PPTX、HTML，再导出三页原生可编辑 draw.io。
+- A 为横向日期比例轴，B 为纵向卷宗登记簿，Control 保留旧版竖轨卡片版式；
+  不修改文字、日期、顺序、source/semantic IDs。
+- 演示引擎位于 `package/timeline_demo/r2_engine/`，与原生产模块隔离。
+  原 R4 生产代码与 `package/requirements-client-delivery.txt` 均不变；演示
+  使用单独的 `package/requirements-timeline-demo.txt` 和包外环境。
+- 这不是通用 A/B 排版或 draw.io 客户交付路线，不得向旧生产入口添加或虚构
+  `--format drawio`。演示完成不能作为真实案件覆盖或人工编辑/另存验收证明。
+- 状态始终为 `synthetic / REVIEW_DRAFT`；无真实案件放行或对外提交权限。
 
-- `payload-legacy-skill/`：litigation-visualization-cn 独立Skill本体（授权安全门/来源绑定事实模型/六类图模板/双validator）。
-- `payload-frozen-contract-r2/`：冻结可视化合同donor（渲染治理规范）。
-- `viz-engine/`：四件渲染/构建/校验引擎（逐实体MIT再许可账见LICENSE-PROVENANCE.json）。
-- `tools/run_vis.py`：**唯一公开 runner**（显式 --enable-vis＋TEXT PASS 绑定＋同案冻结 07＋A01-A09；五类 fail-closed 零产物）；`fixtures/sample-case/`＝合成自测样例。
-- `evidence/`：runner 正链＋五负收据（VIS-RUNNER-AS-RUN.json）与 MIT 纯净/冒烟收据。
-- payload-legacy-skill/ 与 payload-frozen-contract-r2/ 为 NON-EXECUTABLE-REFERENCE（参考件，非执行入口）。
-- 顶层九实体：SKILL.md / README.md / LICENSE / NOTICE / AUTHOR.json / LICENSE-PROVENANCE.json / PACKAGE-MANIFEST.json / SHA256SUMS.txt / PACKAGE-RECEIPT.json。
+## 强制边界
 
-## 授权边界
+- VIS 默认关闭；只有 `TEXT PASS` 后才能消费同案独立冻结 07 与 A01-A09 精确锚集。
+- 输入缺失、哈希不符、跨案、锚集失配、隐私门失败、请求与产出格式不闭合时必须
+  fail closed，且不得留下半成品。
+- 上游事实、证据、现行法、隐私与人工确认是权威来源；渲染层不得反向改写。
+- 生成成功、结构校验、截图预览或 agent ACK 都不是客户或法院放行。
 
-本地桌面交付。不含安装、正式晋升、上传/外发、公开发布、GEO 激活/投影/发布或法院提交授权。
+## R4 客户交付格式
+
+- 未指定 `--format` 时只请求原生可编辑 PPTX；显式请求 HTML 时只生成单文件
+  离线 HTML；双格式请求作为一个事务共同提交。
+- PPTX 使用仓库外隔离环境中的 `python-pptx==1.0.2`，不得依赖
+  `@oai/artifact-tool` 或 Codex 私有运行时。
+- HTML 必须单文件、零脚本、零 CDN、零外链字体并支持离线阅读和打印。
+- 两种格式消费同一闭合 `DeliveryIR`，不得静默截断、缩写、重排或用截图冒充
+  可编辑演示文稿。
+- 没有绑定确切 profile 与产物哈希的人工放行收据时，状态保持 `REVIEW_DRAFT`，
+  文件名沿用 `REVIEW-DRAFT`，每页显示“审阅稿”。
+
+## 失败收据和发布边界
+
+`failure-receipt-v1` 只服务冻结 S1；`failure-receipt-v2` 只服务 R4 客户交付事务。
+失败收据只能证明失败、清理与零提交，不能充当成功、客户放行或法院提交证据。
+
+`PUBLICATION.json` 是本轮构建时的发布意图和历史状态，不是推送完成证明；实际远端
+动作以树外发布回读收据为准。公开源码不等于自动安装、真实案件外发、客户放行、
+GEO 激活或法院提交；这些动作仍需各自的人工授权与证据。

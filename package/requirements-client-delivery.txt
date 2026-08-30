@@ -1,0 +1,18 @@
+# Tested, non-vendored runtime lock for R4 client delivery.
+# Installed outside the package; no dependency is vendored in this repository.
+python-pptx==1.0.2
+Pillow==12.2.0
+lxml==6.1.1
+XlsxWriter==3.2.9
+typing-extensions==4.15.0
+jsonschema==4.26.0
+attrs==26.1.0
+jsonschema-specifications==2025.9.1
+referencing==0.37.0
+rpds-py==0.30.0
+
+# Direct conditional runtime dependency for HTML screen/print QA. It is required
+# only when HTML is requested; the browser executable remains host-provided.
+playwright==1.59.0
+pyee==13.0.1
+greenlet==3.5.1
