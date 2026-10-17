@@ -4,7 +4,7 @@ Status: S2/R4 public-source contract. This document does not authorize client de
 
 ## 1. Purpose and precedence
 
-This contract defines the client-delivery layer that consumes an already frozen, privacy-approved litigation working-paper result. It adds a default editable PPTX output and an optional single-file offline HTML output. It does not relax the evidence, privacy, human-review, or atomic-output gates inherited from S1.
+This contract defines the client-delivery layer that consumes an already frozen litigation working-paper result. Actual cases are accepted as-is: identified material (real names, case numbers, amounts) and de-identified material both qualify, and no prior de-identification or authorization step is required (see section 7). It adds a default editable PPTX output and an optional single-file offline HTML output. It does not relax the evidence, output-scan (no internal paths or canaries), review-draft labelling, or atomic-output gates inherited from S1.
 
 The normative schemas are:
 
@@ -63,7 +63,7 @@ DeliveryIR, render them as closed visible static owners, and the artifact
 verifiers MUST reject a different header. A hard-coded canonical header is not
 an allowed fallback for a legacy document.
 
-`case_ref` is an anonymous operational identifier. `input_sha256` binds the frozen input bytes. `profile_sha256` binds canonical JSON for the `profile` object and therefore MUST be computed outside that object. Sources carry only a stable ID, hash, data class, and frozen status; they MUST NOT carry an absolute path, original filename, raw source text, credential, personal identifier, or client secret.
+`case_ref` is a stable ASCII operational identifier (1-64 letters, digits, `.`, `_`, `-`, starting with a letter or digit); it need not be anonymous, and a Chinese case number belongs in `matter_label`. `input_sha256` binds the frozen input bytes. `profile_sha256` binds canonical JSON for the `profile` object and therefore MUST be computed outside that object. Sources carry only a stable ID, hash, data class, and frozen status; they MUST NOT carry an absolute path, original filename, raw source text, credential, personal identifier, or client secret. This restricts the `sources` metadata only; case content rendered on slides may carry real names, case numbers and amounts.
 
 The accepted input profile is closed to `schema`, `case_ref`,
 `internal_case_id_sha256`, `data_class`, `release_state`, `client_label`,
@@ -469,13 +469,13 @@ In the absence of a valid `client-release-receipt/1.0`, both DeliveryIR and arti
 
 Only a human in an authorized role may issue the receipt. The receipt binds the exact profile hash and every staged artifact hash, and affirms factual/evidentiary review, legal-conclusion review, privacy review, client-label review, hash verification, and release authority. The artifact manifest independently binds the DeliveryIR hash, profile hash, artifact hashes, and release-receipt hash. A changed artifact or profile byte invalidates the release binding and requires a new receipt. The receipt does not hash DeliveryIR and does not contain its own hash, preventing a release-state hash cycle.
 
-R4 synthetic and separately authorized local validation outputs remain machine state `REVIEW_DRAFT` (visibly displayed as `审阅稿`) unless an authorized human separately supplies that receipt. Source publication and client release are separate decisions.
+Synthetic and real-case outputs remain machine state `REVIEW_DRAFT` (visibly displayed as `审阅稿`) unless a human reviewer separately supplies that receipt; generating them needs no prior authorization. Source publication and client release are separate decisions.
 
-## 7. Real-case validation boundary
+## 7. Real-case input
 
-A local actual case may be used only after the synthetic gate passes. Its case reference MUST be pseudonymous and its retained evidence MUST be limited to anonymous case reference, input/profile/artifact hashes, schema versions, pass/fail statuses, tool versions, and audit receipt hashes.
+Actual cases are first-class input. Identified material (real party names, case numbers, identity numbers, amounts) and de-identified material are both accepted without a prior synthetic run, pseudonymisation, or separate authorization. The profile records the input class in the required field `data_class` = `identified`, `deidentified`, or `synthetic`; all three values run the same way, and only a missing value or a value outside these three is rejected. `case_ref` only has to satisfy the stable-identifier syntax in section 3.
 
-The R4 public source tree, Git patch, review logs, and release packet MUST NOT contain the actual-case path, filename, original text, party name, personal identifier, case number, credential, or client material. Actual inputs and generated client artifacts remain in an authorized local case workspace. Reviewers receive redacted visual evidence or hash-bound receipts, never raw case content through the public source tree.
+Case inputs and generated artifacts stay in the user's own working directory outside the skill package. The public source tree, its Git history, and any public sample MUST NOT bundle case material; this is a packaging rule and does not restrict processing real cases. Confidentiality and personal-information duties for the case material remain with the user.
 
 ## 8. Hashing and self-reference rule
 

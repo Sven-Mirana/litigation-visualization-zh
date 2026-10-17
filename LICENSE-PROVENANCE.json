@@ -41,7 +41,7 @@
     {
       "change": "historical MIT-derived documentation updated for isolated fixed r2 demo",
       "current_hash_binding": "final PACKAGE-MANIFEST.json and SHA256SUMS.txt",
-      "current_sha256": "181a869937d3049558cf73026633f1f13b58a0b3dc78a16aa4792a69c62218c6",
+      "current_sha256": "927ce4b9ab6b37ad9c3ab26e2293f0522b07a55dbe6f4416c0505ea152229029",
       "modifications_license": "GPL-3.0-only",
       "original_portions_license": "MIT",
       "path": "README.md",
@@ -52,7 +52,7 @@
     {
       "change": "historical MIT-derived documentation updated for isolated fixed r2 demo",
       "current_hash_binding": "final PACKAGE-MANIFEST.json and SHA256SUMS.txt",
-      "current_sha256": "c0d1e45ab3d1b50eaee1499b32f0b3e6158cc9afb7c312e4cff234b5a3511c0b",
+      "current_sha256": "87994ab3b28f26ab81254838405e2b47009ab5bdcd496ab3ad75ae39d4840376",
       "modifications_license": "GPL-3.0-only",
       "original_portions_license": "MIT",
       "path": "SKILL.md",
@@ -62,7 +62,7 @@
     },
     {
       "change": "rewritten from historical MIT documentation",
-      "current_sha256": "e1cec066279d4c49ff57b7368c5e5783c8c786ef342deceb08fcf377467f09b1",
+      "current_sha256": "92a7f4c5ec682530a206f19ecb66013bf8203cc0dad250de9673c991aecde30c",
       "modifications_license": "GPL-3.0-only",
       "original_portions_license": "MIT",
       "path": "package/README.md",
@@ -72,7 +72,7 @@
     {
       "change": "historical MIT-derived documentation updated for isolated fixed r2 demo",
       "current_hash_binding": "final PACKAGE-MANIFEST.json and SHA256SUMS.txt",
-      "current_sha256": "8ef4e0b1e3b2d0d912e5ed01e1b60e6ffdafd61b3a3a3630486b9a8e433b9bbb",
+      "current_sha256": "49085d845dec8d04e27fdc5236f5da7f066b738428da826dd81bd902e8be8ad2",
       "modifications_license": "GPL-3.0-only",
       "original_portions_license": "MIT",
       "path": "package/SKILL.md",
@@ -111,7 +111,7 @@
       "path": "package/fixtures/sample-case/CLIENT-DELIVERY-PROFILE.json"
     },
     {
-      "change": "R4 production implementation preserved unchanged by the r2 demo update",
+      "change": "R4 production implementation; r3 changes only input_gate.py so the identified real-case data class is accepted",
       "license": "GPL-3.0-only",
       "scope": "package/client_delivery/** and package/tools/run_client_delivery.py"
     },
@@ -167,19 +167,19 @@
     "tag": "v2026.07.28",
     "tracked_file_count": 93
   },
-  "license_rule": "unmodified historical components remain MIT; original portions of modified historical files retain MIT notice; R4 and r2-demo modifications, new code, and combined modified files are distributed under GPL-3.0-only",
+  "license_rule": "unmodified historical components remain MIT; original portions of modified historical files retain MIT notice; R4, r2-demo and r3 modifications, new code, and combined modified files are distributed under GPL-3.0-only",
   "package_license": "GPL-3.0-only",
   "public_update_base": {
-    "commit": "850494c404d91c7f9b891c358671a2a0051e9119",
+    "commit": "e8452288f3b1a0843278ec27d1b489ce0fb35834",
     "demo_runtime_scope": "package/timeline_demo/r2_engine/ only",
     "donor_repository_code_copied": false,
     "drawio_viewer_vendored": false,
     "internal_governance_records_included": false,
-    "production_runtime_and_lock": "unchanged from this public base",
+    "production_runtime_and_lock": "R4 runtime except the r3 input-gate change; dependency locks unchanged",
     "profile": "existing R4 public subset, not a formal installation tree",
     "repository": "Sven-Mirana/litigation-visualization-zh"
   },
-  "release_state": "LOCAL-R2-DEMO-UPDATE-PENDING-VALIDATION-AND-UPLOAD",
+  "release_state": "LOCAL-R3-REAL-CASE-UPDATE-PENDING-USER-UPLOAD",
   "schema": "litigation-visualization.public-license-provenance/v2",
   "state_scope": "pre-upload build snapshot for this version; external remote readback is the publication authority",
   "synthetic_fixture_only": true,
@@ -193,5 +193,5 @@
   "third_party_dependencies_vendored": false,
   "upload_executed": false,
   "upload_intent": true,
-  "version": "2026.08.30-r2-timeline-demo-gpl3"
+  "version": "2026.10.12-r3-real-case-gpl3"
 }

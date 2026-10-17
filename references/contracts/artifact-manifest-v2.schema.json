@@ -224,7 +224,7 @@
   "$defs": {
     "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
     "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
-    "data_class": { "enum": ["synthetic", "deidentified"] },
+    "data_class": { "enum": ["synthetic", "deidentified", "identified"] },
     "format": { "enum": ["pptx", "html"] },
     "relative_path": {
       "type": "string",

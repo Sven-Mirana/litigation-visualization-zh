@@ -315,10 +315,25 @@ def verify_qa(qa_dir: Path, delivery_ir: dict[str, Any]) -> dict[str, Any]:
     relationship_chain_text_boxes = 0
     role_text_boxes = 0
     role_text_counts: dict[str, int] = {}
-    for name in expected_layouts:
+    # Report every overflowing page at once, in page order, with its source so
+    # the caller knows which entries to shorten; HTML has no fixed card size.
+    overflowing = []
+    for name in sorted(expected_layouts):
+        if re.search(r'"(?:overflow|clipped)"\s*:\s*true', (qa_dir / name).read_text(encoding="utf-8"), re.IGNORECASE):
+            overflow_index = int(name.removeprefix("slide-").removesuffix(".layout.json")) - 1
+            overflow_slide = delivery_ir["slides"][overflow_index]
+            overflow_refs = "/".join(overflow_slide.get("source_refs") or []) or (
+                "交付profile封面字段（matter_label等）" if overflow_slide.get("role") == "cover" else "交付profile"
+            )
+            overflowing.append(
+                f"{name}（第{overflow_index + 1}页「{overflow_slide['title']}」，来源{overflow_refs}）"
+            )
+    if overflowing:
+        raise VerificationError(
+            "布局导出报告溢出:" + "；".join(overflowing) + "。请缩短这些页的条目，或改用 --format html"
+        )
+    for name in sorted(expected_layouts):
         raw = (qa_dir / name).read_text(encoding="utf-8")
-        if re.search(r'"(?:overflow|clipped)"\s*:\s*true', raw, re.IGNORECASE):
-            raise VerificationError(f"布局导出报告溢出:{name}")
         try:
             layout = json.loads(raw)
         except json.JSONDecodeError as exc:

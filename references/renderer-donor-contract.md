@@ -25,7 +25,8 @@ The contract specifies:
 - a closed scene graph with element-level source hashes and stable locators;
 - explicit visual-mode and three-question human checkpoint state;
 - a pseudonymous human confirmation receipt with input hash and revocation state;
-- synthetic/deidentified privacy state and mandatory input/output scan gates;
+- synthetic/deidentified/identified data-class state and mandatory input/output
+  scan gates (path and canary leak scans, not a de-identification requirement);
 - a closed engine allowlist with layout-to-engine compatibility;
 - requested-versus-produced equality, per-artifact SHA-256, one scene-graph
   digest, anchor tolerance, and same-filesystem atomic commit;

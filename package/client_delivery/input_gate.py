@@ -20,7 +20,10 @@ PATH_ERRORS = (OSError, RuntimeError, ValueError)
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 CASE_REF_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
 PROFILE_SCHEMA = "client-delivery-profile/1.0"
-ALLOWED_DATA_CLASSES = {"synthetic", "deidentified"}
+# identified = actual case material as-is (real names, case numbers, amounts).
+# Real cases need no prior de-identification or authorization; data_class
+# only records what the input is and stays a closed enum.
+ALLOWED_DATA_CLASSES = {"identified", "deidentified", "synthetic"}
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 CONFIDENTIALITY = {"CONFIDENTIAL", "ATTORNEY_WORK_PRODUCT", "INTERNAL_REVIEW_ONLY"}
 
@@ -140,13 +143,17 @@ def validate_profile(profile: Any, internal_case_id: str) -> dict[str, Any]:
         raise GateError("交付profile schema不符")
     case_ref = profile.get("case_ref")
     if not isinstance(case_ref, str) or not CASE_REF_RE.fullmatch(case_ref):
-        raise GateError("case_ref必须为匿名稳定标识")
+        raise GateError(
+            "case_ref须为1-64位字母、数字或._-组成的稳定编号，首位须为字母或数字（无需匿名；中文案号可写入matter_label）"
+        )
     expected_case_hash = sha256_bytes(internal_case_id.encode("utf-8"))
     if profile.get("internal_case_id_sha256") != expected_case_hash:
         raise GateError("交付profile未绑定当前内部case-id")
     data_class = profile.get("data_class")
-    if data_class not in ALLOWED_DATA_CLASSES:
-        raise GateError("data_class无效")
+    if not isinstance(data_class, str) or data_class not in ALLOWED_DATA_CLASSES:
+        raise GateError(
+            "data_class须为identified（真实案件原样材料）、deidentified（已脱敏）或synthetic（合成样例）"
+        )
     if profile.get("release_state") != "REVIEW_DRAFT":
         raise GateError("S2候选仅允许review_draft；CLIENT-READY需另行人工放行")
     text_fields = (

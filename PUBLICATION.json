@@ -1,52 +1,64 @@
 {
-  "schema": "litigation-visualization.github-publication/v2",
-  "version": "2026.08.30-r2-timeline-demo-gpl3",
-  "repository": "Sven-Mirana/litigation-visualization-zh",
-  "visibility": "public",
-  "base_branch": "main",
-  "base_commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
-  "base_tag": "v2026.07.28",
-  "target_branch": "codex/r2-timeline-demo-20260830",
-  "pull_request_mode": "reviewed-release-update",
-  "release_state": "PREPARED-SOURCE-RELEASE",
-  "state_scope": "pre-upload build snapshot for the current version, not a remote execution receipt",
-  "public_update_base_commit": "850494c404d91c7f9b891c358671a2a0051e9119",
-  "upload_intent": true,
-  "upload_executed": false,
-  "upload_state_scope": "current r2-demo update only; the historical R4 branch and PR already exist",
-  "historical_r4_remote_state": {
-    "checked_date": "2026-08-30",
-    "branch": "codex/r4-gpl3-update-20260816",
-    "commit": "850494c404d91c7f9b891c358671a2a0051e9119",
-    "branch_pushed": true,
-    "pull_request_number": 1,
-    "pull_request_state": "OPEN",
-    "pull_request_draft": true,
-    "merged": false,
-    "r4_release_created": false
-  },
-  "publication_receipt_authority": "external post-action remote readback bound to the exact final commit and artifact hashes; not this pre-upload source file",
   "authorization_scope": "repository update instruction only; neither this file nor that instruction is independent third-party rights proof",
-  "update_scope": {
-    "production_runtime_and_lock": "unchanged from R4 public base",
-    "new_capability": "isolated fixed-three-event Control/A/B synthetic demo, six PPTX/HTML artifacts and one native three-page drawio file",
-    "general_case_ab_layout": false,
-    "drawio_public_client_format": false,
-    "actual_case_input_accepted_by_demo": false,
-    "donor_or_viewer_code_vendored": false,
-    "skillhub_upload_executed": false
-  },
-  "license_transition": {
-    "repository_default": "GPL-3.0-only",
-    "historical_mit_rights_preserved": true,
-    "historical_commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
-    "historical_license_text_sha256": "675909952f35a3e7c16d48a8bc49d5705d40c3b248d2fbb11e7f6bc32ca51aac"
-  },
+  "base_branch": "main",
+  "base_commit": "e8452288f3b1a0843278ec27d1b489ce0fb35834",
+  "base_tag": "v2026.08.30-r2",
   "excluded_authorities": [
     "automatic installation",
     "actual-case publication",
     "client delivery",
     "GEO activation",
     "court submission"
-  ]
+  ],
+  "historical_r2_remote_state": {
+    "checked_date": "2026-10-12",
+    "main_commit": "e8452288f3b1a0843278ec27d1b489ce0fb35834",
+    "merged": true,
+    "pull_request_number": 2,
+    "release_tag": "v2026.08.30-r2"
+  },
+  "historical_r4_remote_state": {
+    "branch": "codex/r4-gpl3-update-20260816",
+    "branch_pushed": true,
+    "checked_date": "2026-08-30",
+    "commit": "850494c404d91c7f9b891c358671a2a0051e9119",
+    "merged": false,
+    "pull_request_draft": true,
+    "pull_request_number": 1,
+    "pull_request_state": "OPEN",
+    "r4_release_created": false
+  },
+  "license_transition": {
+    "historical_commit": "dedb6402fbe74958062a2d2126dda52411095ee5",
+    "historical_license_text_sha256": "675909952f35a3e7c16d48a8bc49d5705d40c3b248d2fbb11e7f6bc32ca51aac",
+    "historical_mit_rights_preserved": true,
+    "repository_default": "GPL-3.0-only"
+  },
+  "public_update_base_commit": "e8452288f3b1a0843278ec27d1b489ce0fb35834",
+  "publication_receipt_authority": "external post-action remote readback bound to the exact final commit and artifact hashes; not this pre-upload source file",
+  "pull_request_mode": "repository-owner-manual-upload",
+  "release_state": "PREPARED-SOURCE-RELEASE",
+  "repository": "Sven-Mirana/litigation-visualization-zh",
+  "schema": "litigation-visualization.github-publication/v2",
+  "state_scope": "pre-upload build snapshot for the current version, not a remote execution receipt",
+  "target_branch": "r3-real-case-input",
+  "update_scope": {
+    "actual_case_input_accepted_by_demo": false,
+    "case_ref_must_be_anonymous": false,
+    "deidentification_required": false,
+    "demo_changed": false,
+    "donor_or_viewer_code_vendored": false,
+    "drawio_public_client_format": false,
+    "general_case_ab_layout": false,
+    "prior_authorization_required": false,
+    "production_runtime_and_lock": "input gate accepts the identified data class; dependency locks unchanged",
+    "real_case_input_accepted_by_production": true,
+    "skillhub_upload_executed": false
+  },
+  "upload_actor": "repository owner, manually",
+  "upload_executed": false,
+  "upload_intent": true,
+  "upload_state_scope": "current r3 real-case-input update only; r2 is already merged and released",
+  "version": "2026.10.12-r3-real-case-gpl3",
+  "visibility": "public"
 }

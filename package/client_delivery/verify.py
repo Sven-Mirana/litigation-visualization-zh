@@ -2389,7 +2389,10 @@ def verify_pptx(path: Path, delivery_ir: dict[str, Any], *, structure_sha256: st
             raise VerificationError("PPTX含外部relationship")
         for marker in FORBIDDEN_TEXT:
             if marker.lower() in bytes(all_bytes).lower():
-                raise VerificationError("PPTX隐私扫描命中内部路径或canary")
+                raise VerificationError(
+                    "PPTX隐私扫描命中内部路径或canary：产物含本机路径或测试标记片段（如 /Users、/home 路径或 file:// 链接），"
+                    "与案件是否真实、是否脱敏无关；请改写含这些片段的文字（如网址）"
+                )
         # Runs after the structural and privacy scans so a malformed or
         # canary-bearing package is still reported by its own gate first.
         slide_size_closure = _verify_pptx_slide_size(archive)
@@ -3079,7 +3082,10 @@ def verify_html(path: Path, delivery_ir: dict[str, Any]) -> dict[str, Any]:
         raise VerificationError("HTML缺少中文审阅稿水印")
     for marker in FORBIDDEN_TEXT:
         if marker.decode("ascii", "ignore").lower() in lowered:
-            raise VerificationError("HTML隐私扫描命中内部路径或canary")
+            raise VerificationError(
+                "HTML隐私扫描命中内部路径或canary：产物含本机路径或测试标记片段（如 /Users、/home 路径或 file:// 链接），"
+                "与案件是否真实、是否脱敏无关；请改写含这些片段的文字（如网址）"
+            )
     try:
         semantic_completeness = compare_rendered_inventory(
             delivery_ir,

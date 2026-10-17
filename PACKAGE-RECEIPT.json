@@ -1,11 +1,11 @@
 {
   "client_release_authorized": false,
-  "file_count": 83,
-  "manifest_sha256": "633e1f8ca08ac068d63c52165ab7f67873af334c0e107cb024f5cce00db098b4",
-  "payload_tree_sha256": "937896e8befbf12edd351d8786aa3a27a666cc9c609cb3af461b9d14a09988e5",
+  "file_count": 85,
+  "manifest_sha256": "29f497d1bd0d9dab10f7b8290ded3015d6c1fb309cb72f5ae59c7a6c524b5766",
+  "payload_tree_sha256": "8832f73f50869ddad6cb0ab8afb98f7b1c6ab92dab25dafc7fe8e8904666f549",
   "remote_execution_attested": false,
   "schema": "litigation-visualization.distribution-receipt/v3",
   "skillhub_uploaded": false,
   "status": "PASS_BUILD_AND_LOCAL_TESTS",
-  "version": "2026.08.30-r2-timeline-demo-gpl3"
+  "version": "2026.10.12-r3-real-case-gpl3"
 }

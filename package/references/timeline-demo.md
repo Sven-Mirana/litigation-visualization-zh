@@ -1,9 +1,9 @@
 # 固定合成时间线演示（r2）
 
 本模块是固定样例的可移植重放入口，不是通用 A/B 时间线功能，也不是生产交付入口。
-`tools/run_client_delivery.py`、生产 `client_delivery/`、生产 `viz-engine/` 和
-`requirements-client-delivery.txt` 保持原版本；演示只导入隔离的
-`timeline_demo/r2_engine/client_delivery/`。
+本演示不依赖也不改动生产入口、生产 `client_delivery/`、生产 `viz-engine/` 与
+`requirements-client-delivery.txt`（r3 起生产入口另行放开真实案件输入，与本演示无关）；
+演示只导入隔离的 `timeline_demo/r2_engine/client_delivery/`。
 七个引擎源文件经哈希验证后，在演示专用模块命名空间直接编译加载；不修改生产
 `client_delivery` 命名空间或 Python 搜索路径，也不读取引擎的缓存字节码。
 

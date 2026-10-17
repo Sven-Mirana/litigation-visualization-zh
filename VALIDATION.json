@@ -6,7 +6,7 @@
     "drawio_native_pages": 3,
     "exit_code": 0
   },
-  "current_validation_boundary": "Current execution verifies exact approved bytes, native objects, semantics, source isolation and offline structure; it does not rerun the historical renderer geometry audit.",
+  "current_validation_boundary": "Production regression (including live Chrome screen/print checks), exact approved demo bytes and one fictional identified-case run; the historical renderer geometry audit is not rerun.",
   "demo_tests": {
     "command": "python -B -m unittest discover -s package/tests -p test_timeline_demo.py -v",
     "errors": 0,
@@ -14,7 +14,11 @@
     "passed": 15,
     "skipped": 0
   },
-  "fresh_external_environments": true,
+  "environments": {
+    "demo": "separate venv with the pinned requirements-timeline-demo.txt versions",
+    "production": "Python 3.12 with the pinned requirements-client-delivery.txt versions"
+  },
+  "fresh_external_environments": false,
   "git_remote_actions_attested": false,
   "limits": {
     "arbitrary_or_real_case_demo_input": false,
@@ -29,11 +33,23 @@
     "errors": 0,
     "failed": 0,
     "live_chrome_screen_print_checks": true,
-    "passed": 74,
+    "passed": 79,
     "skipped": 0
+  },
+  "real_case_production_cli": {
+    "case": "fictional identified-style sample written from the documented input format",
+    "data_class": "identified",
+    "exit_code": 0,
+    "identifiers_rendered_unmasked": true,
+    "requested": [
+      "pptx",
+      "html"
+    ],
+    "tampered_frozen07_exit_code": 3,
+    "tampered_output_committed": false
   },
   "schema": "litigation-visualization.release-tests/v1",
   "skillhub_uploaded": false,
   "status": "PASS",
-  "version": "2026.08.30-r2-timeline-demo-gpl3"
+  "version": "2026.10.12-r3-real-case-gpl3"
 }

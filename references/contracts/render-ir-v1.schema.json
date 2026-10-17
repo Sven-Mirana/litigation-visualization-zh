@@ -74,7 +74,7 @@
       "properties": {
         "source_id": { "$ref": "#/$defs/id" },
         "sha256": { "$ref": "#/$defs/sha256" },
-        "data_class": { "enum": ["synthetic", "deidentified"] },
+        "data_class": { "enum": ["synthetic", "deidentified", "identified"] },
         "frozen": { "const": true }
       }
     },
@@ -89,9 +89,9 @@
         "output_scan_required"
       ],
       "properties": {
-        "data_class": { "enum": ["synthetic", "deidentified"] },
-        "real_case_data": { "const": false },
-        "minimization_status": { "const": "approved" },
+        "data_class": { "enum": ["synthetic", "deidentified", "identified"] },
+        "real_case_data": { "type": "boolean" },
+        "minimization_status": { "enum": ["approved", "not_required"] },
         "input_scan": {
           "type": "object",
           "additionalProperties": false,

@@ -1,5 +1,5 @@
 
-name: macos-r2-release-tests
+name: macos-r3-release-tests
 
 on:
   push:
@@ -21,15 +21,15 @@ jobs:
       - name: Verify public privacy and release boundaries
         env:
           PYTHONDONTWRITEBYTECODE: '1'
-        run: python -B validation/check_r2_release.py
+        run: python -B validation/check_r3_release.py
       - run: python -m pip install -r package/requirements-client-delivery.txt
-      - name: Run all 74 tests with no bytecode
+      - name: Run all 79 tests with no bytecode
         env:
           PYTHONDONTWRITEBYTECODE: '1'
         run: |
           set -o pipefail
           python -B -m unittest discover -s validation -p 'test*.py' -v 2>&1 | tee /tmp/r4-tests.log
-          grep -Eq '^Ran 74 tests in ' /tmp/r4-tests.log
+          grep -Eq '^Ran 79 tests in ' /tmp/r4-tests.log
           grep -Eq '^OK$' /tmp/r4-tests.log
           test -z "$(find . -name __pycache__ -o -name '*.pyc')"
       - name: Test isolated timeline demo in a separate environment
