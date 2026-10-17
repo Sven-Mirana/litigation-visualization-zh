@@ -1,6 +1,17 @@
 
 # Changelog
 
+## 2026.10.12 r3 real-case input
+
+版本：`2026.10.12-r3-real-case-gpl3`。
+
+- 生产入口接受真实案件：`data_class` 新增 `identified`，实名或脱敏材料均可，不要求
+  事先脱敏或另行授权；DeliveryIR、产物清单 v2、失败收据 v2 与 RenderIR 合同同步。
+- `case_ref` 不再要求匿名；说明文档删除授权门与必须脱敏的表述，补充输入格式要点。
+- 布局溢出与本机路径扫描的报错写明原因和处理办法。
+- 新增 5 项回归测试（生产回归共 79 项）；发布门改为 `check_r3_release.py`，旧入口保留为兼容入口。
+- 技术门、审阅稿状态、r2 演示与依赖锁不变。
+
 ## 2026.08.30 r2 timeline demo
 
 版本：`2026.08.30-r2-timeline-demo-gpl3`。

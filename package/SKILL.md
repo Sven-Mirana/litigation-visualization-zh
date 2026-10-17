@@ -1,13 +1,13 @@
 ---
 name: litigation-visualization
 display_name: 诉讼可视化Skill包
-description: 沿用 R4 门从冻结诉讼事实生成 PPTX 或离线 HTML；另提供固定三事件 Control/A/B 与三页 draw.io 合成演示。演示不是通用案件入口，全部未放行产物保持 REVIEW_DRAFT。
-version: 2026.08.30-r2-timeline-demo-gpl3
+description: 从冻结诉讼事实生成 PPTX 或离线 HTML，真实案件实名或脱敏材料均可，无需事先授权或脱敏；另提供固定三事件 Control/A/B 与三页 draw.io 合成演示（演示不是通用案件入口）。全部未放行产物保持 REVIEW_DRAFT。
+version: 2026.10.12-r3-real-case-gpl3
 author: 李时瑀律师
 license: GPL-3.0-only
 ---
 
-# 诉讼可视化 Skill 包（R4 生产入口 + r2 固定演示）
+# 诉讼可视化 Skill 包（r3 生产入口 + r2 固定演示）
 
 ## 用途
 
@@ -18,13 +18,15 @@ license: GPL-3.0-only
 
 - VIS 默认关闭；唯一输入为同案独立冻结 07 与 A01-A09 精确锚集。四视图不得
   回写文本链；非法日期、事件超限、跨案或冻结快照失配一律 fail closed。
-- 封装前执行隐私门；真实案件原文、本机路径与内部协作记录不得进入分发包或 Git。
+- 封装（打包分发本 skill）前执行隐私门：案件原文、本机路径与内部协作记录不得进入
+  分发包或 Git。这条只约束封装与分发；用本 skill 处理真实案件（实名或脱敏）无需
+  事先授权或脱敏，交付 profile 的 `data_class` 填 `identified` 即可。
 - GEO activation/public_projection/release 保持 false，除非另行明确审批。
 
 ## 内容与执行入口
 
 - `tools/run_vis.py`：冻结 S1 四图 runner；失败收据使用 v1 schema。
-- `tools/run_client_delivery.py`：R4 客户审阅稿 runner；失败收据使用 v2 schema。
+- `tools/run_client_delivery.py`：客户审阅稿 runner，可直接处理真实案件；失败收据使用 v2 schema。
 - `client_delivery/`：严格输入门、DeliveryIR、PPTX/HTML writer 与验证器。
 - `tools/run_timeline_demo.py`：只接受包内固定三事件 IR 的演示入口。
 - `timeline_demo/r2_engine/`：隔离的 r2 演示副本，不替换 `client_delivery/` 或
@@ -44,8 +46,8 @@ Control（竖轨卡片）、A（横向日期比例轴）、B（纵向卷宗登�
 typing-extensions 4.16.0），须在独立的包外环境安装。原
 `requirements-client-delivery.txt` 与两条生产入口保持不变。
 
-禁止以本入口处理任意外部事实或真实案件；禁止将演示描述为通用 A/B 或 draw.io
-格式支持。固定样例成功、结构校验或截图不等于复杂案件覆盖、人工打开/编辑/另存
+禁止以本演示入口处理任意外部事实或真实案件（真实案件请用
+`tools/run_client_delivery.py`）；禁止将演示描述为通用 A/B 或 draw.io 格式支持。固定样例成功、结构校验或截图不等于复杂案件覆盖、人工打开/编辑/另存
 验收、客户交付或法院放行。
 
 ## PPTX 与 HTML
@@ -63,5 +65,5 @@ typing-extensions 4.16.0），须在独立的包外环境安装。原
 `LICENSE-PROVENANCE.json`、`NOTICE` 与 `LICENSES/MIT.txt`。案件事实、证据、
 个人信息、商标及其他第三方材料不会因与程序同目录而变成 GPL。
 
-公开源码不等于自动安装、真实案件外发、客户放行、GEO 激活或法院提交；这些动作
-需要各自的人类授权与证据。
+公开源码不等于自动安装、客户放行、GEO 激活或法院提交，这些动作由使用者自行
+决定；用本 skill 处理真实案件无需事先授权。

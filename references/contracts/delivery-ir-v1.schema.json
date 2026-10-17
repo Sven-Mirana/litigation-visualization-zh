@@ -71,7 +71,7 @@
       "pattern": "^sha256:[0-9a-f]{64}$"
     },
     "data_class": {
-      "enum": ["synthetic", "deidentified"]
+      "enum": ["synthetic", "deidentified", "identified"]
     },
     "source_schema": {
       "oneOf": [

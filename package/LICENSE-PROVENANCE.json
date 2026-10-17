@@ -38,7 +38,7 @@
     },
     {
       "change": "modified documentation",
-      "current_sha256": "e1cec066279d4c49ff57b7368c5e5783c8c786ef342deceb08fcf377467f09b1",
+      "current_sha256": "92a7f4c5ec682530a206f19ecb66013bf8203cc0dad250de9673c991aecde30c",
       "modifications_license": "GPL-3.0-only",
       "original_portions_license": "MIT",
       "path": "README.md",
@@ -47,7 +47,7 @@
     {
       "change": "historical MIT-derived documentation updated for isolated fixed r2 demo",
       "current_hash_binding": "final root PACKAGE-MANIFEST.json and SHA256SUMS.txt",
-      "current_sha256": "8ef4e0b1e3b2d0d912e5ed01e1b60e6ffdafd61b3a3a3630486b9a8e433b9bbb",
+      "current_sha256": "49085d845dec8d04e27fdc5236f5da7f066b738428da826dd81bd902e8be8ad2",
       "modifications_license": "GPL-3.0-only",
       "original_portions_license": "MIT",
       "path": "SKILL.md",
@@ -82,7 +82,7 @@
       "path": "fixtures/sample-case/CLIENT-DELIVERY-PROFILE.json"
     },
     {
-      "change": "R4 production implementation preserved unchanged by the r2 demo update",
+      "change": "R4 production implementation; r3 changes only input_gate.py so the identified real-case data class is accepted",
       "license": "GPL-3.0-only",
       "scope": "client_delivery/** and tools/run_client_delivery.py"
     },
@@ -131,16 +131,16 @@
   "historical_repository": "Sven-Mirana/litigation-visualization-zh",
   "historical_tag": "v2026.07.28",
   "internal_governance_records_included": false,
-  "license_rule": "unmodified historical components remain MIT; original portions of modified historical files retain MIT notice; R4 and r2-demo modifications, new code, and combined modified files are distributed under GPL-3.0-only",
+  "license_rule": "unmodified historical components remain MIT; original portions of modified historical files retain MIT notice; R4, r2-demo and r3 modifications, new code, and combined modified files are distributed under GPL-3.0-only",
   "package_license": "GPL-3.0-only",
-  "production_runtime_and_lock": "unchanged from the R4 public base",
-  "public_update_base_commit": "850494c404d91c7f9b891c358671a2a0051e9119",
-  "release_state": "LOCAL-R2-DEMO-UPDATE-PENDING-VALIDATION-AND-UPLOAD",
+  "production_runtime_and_lock": "R4 runtime except the r3 input-gate change; dependency locks unchanged",
+  "public_update_base_commit": "e8452288f3b1a0843278ec27d1b489ce0fb35834",
+  "release_state": "LOCAL-R3-REAL-CASE-UPDATE-PENDING-USER-UPLOAD",
   "schema": "litigation-visualization.package-license-provenance/v2",
   "state_scope": "pre-upload build snapshot for this version; external remote readback is the publication authority",
   "synthetic_fixture_only": true,
   "third_party_dependencies_vendored": false,
   "upload_executed": false,
   "upload_intent": true,
-  "version": "2026.08.30-r2-timeline-demo-gpl3"
+  "version": "2026.10.12-r3-real-case-gpl3"
 }

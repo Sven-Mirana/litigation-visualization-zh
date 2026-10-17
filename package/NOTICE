@@ -1,7 +1,7 @@
-诉讼可视化 Skill 包 R4 + r2 固定合成演示
+诉讼可视化 Skill 包 R4 + r2 固定合成演示 + r3 真实案件输入
 Copyright (C) 2026 李时瑀律师
 
-仓库中 R4 与 r2 演示新增内容、对旧 MIT 文件的修改以及这些部分的组合文件依据
+仓库中 R4、r2 演示与 r3 新增内容、对旧 MIT 文件的修改以及这些部分的组合文件依据
 GNU General Public License version 3 only（SPDX: GPL-3.0-only）提供；完整文本见
 LICENSE。
 
@@ -32,8 +32,9 @@ R4 不撤销接收者已经取得的 MIT 权利。完整原 MIT 文本见 `LICEN
 隔离 r2 演示副本
 ----------------
 
-原 `client_delivery/`、`viz-engine/`、两条生产入口和生产依赖锁保持 R4 公开基底
-字节。`timeline_demo/r2_engine/` 是独立演示副本：其中两份 `viz-engine/mother-*`
+原 `viz-engine/`、两条生产入口和生产依赖锁保持 R4 公开基底字节；`client_delivery/`
+中只有 r3 修改的 `input_gate.py`（接受真实案件 `identified` 输入）不同于 R4，按
+GPL-3.0-only 提供。`timeline_demo/r2_engine/` 是独立演示副本：其中两份 `viz-engine/mother-*`
 文件基于上述旧 MIT 文件修改，保留 MIT 原通知，修改及组合文件按 GPL-3.0-only
 分发。演示 renderer 已修改，不得称为原字节 MIT 组件。
 

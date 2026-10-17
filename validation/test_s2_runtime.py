@@ -49,7 +49,12 @@ sys.path.insert(0, str(PACKAGE))
 
 from client_delivery.delivery_ir import _balanced_chunks, build_delivery_ir
 from client_delivery.html_writer import render_html
-from client_delivery.input_gate import GateError, load_inputs, strict_json_bytes
+from client_delivery.input_gate import (
+    ALLOWED_DATA_CLASSES,
+    GateError,
+    load_inputs,
+    strict_json_bytes,
+)
 from client_delivery.pptx_writer import _close_presentation_default_text_style
 from client_delivery.semantic_inventory import (
     SemanticInventoryError,
@@ -1721,6 +1726,191 @@ class S2RuntimeTests(unittest.TestCase):
                 delivery_profile=str(leap_path),
             )
             self.assertEqual("2024-02-29", loaded["profile"]["materials_as_of"])
+
+    def identified_profile(self, root: Path, **overrides) -> Path:
+        profile = json.loads(
+            (FIXTURE / "CLIENT-DELIVERY-PROFILE.json").read_text(encoding="utf-8")
+        )
+        profile.update({"data_class": "identified", **overrides})
+        path = root / "profile-identified.json"
+        path.write_text(json.dumps(profile, ensure_ascii=False), encoding="utf-8")
+        return path
+
+    def test_identified_real_case_profile_needs_no_deidentification(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            path = self.identified_profile(root, case_ref="CASE-2099-0001")
+            loaded = load_inputs(
+                case_id="SAMPLE-01",
+                frozen07_dir=str(FIXTURE),
+                text_pass_receipt=str(FIXTURE / "TEXT-PASS-RECEIPT.json"),
+                delivery_profile=str(path),
+            )
+            self.assertEqual("identified", loaded["profile"]["data_class"])
+            ir = build_delivery_ir(loaded, PACKAGE)
+            self.assertEqual("identified", ir["data_class"])
+            schema = json.loads(
+                (
+                    CANDIDATE / "references" / "contracts" / "delivery-ir-v1.schema.json"
+                ).read_text(encoding="utf-8")
+            )
+            self.assertEqual(
+                [], [error.message for error in Draft202012Validator(schema).iter_errors(ir)]
+            )
+
+            base = json.loads(path.read_text(encoding="utf-8"))
+            for index, value in enumerate(("real", "IDENTIFIED", "", ["identified"])):
+                bad = root / f"profile-bad-{index}.json"
+                bad.write_text(
+                    json.dumps({**base, "data_class": value}, ensure_ascii=False),
+                    encoding="utf-8",
+                )
+                with self.subTest(data_class=value), self.assertRaisesRegex(
+                    GateError, r"data_class须为identified"
+                ):
+                    load_inputs(
+                        case_id="SAMPLE-01",
+                        frozen07_dir=str(FIXTURE),
+                        text_pass_receipt=str(FIXTURE / "TEXT-PASS-RECEIPT.json"),
+                        delivery_profile=str(bad),
+                    )
+
+    def test_data_class_contract_enums_match_input_gate(self):
+        self.assertIn("identified", ALLOWED_DATA_CLASSES)
+        contracts = CANDIDATE / "references" / "contracts"
+        for name, keys, extra in (
+            ("delivery-ir-v1.schema.json", ("$defs", "data_class"), set()),
+            ("artifact-manifest-v2.schema.json", ("$defs", "data_class"), set()),
+            ("failure-receipt-v2.schema.json", ("$defs", "data_class"), {"unknown"}),
+            ("render-ir-v1.schema.json", ("$defs", "source", "properties", "data_class"), set()),
+            ("render-ir-v1.schema.json", ("$defs", "privacy", "properties", "data_class"), set()),
+        ):
+            node = json.loads((contracts / name).read_text(encoding="utf-8"))
+            for key in keys:
+                node = node[key]
+            with self.subTest(schema=name, path="/".join(keys)):
+                self.assertEqual(ALLOWED_DATA_CLASSES | extra, set(node["enum"]))
+
+    @unittest.skipUnless(
+        PYTHON_PPTX_AVAILABLE and PLAYWRIGHT_CHROME_AVAILABLE,
+        "python-pptx or system Python Playwright/Chrome not configured",
+    )
+    def test_identified_real_case_material_commits_unmasked_pptx_and_html(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            case = root / "case"
+            case.mkdir()
+            markdown = (FIXTURE / "07-诉讼案件办案方案工作底稿.md").read_text(encoding="utf-8")
+            for old, new in (
+                ("样例承租人", "虚构宏远建材有限公司"),
+                ("合成主体乙", "保证人张伟，身份证号430000000000000000，手机13800000000"),
+            ):
+                self.assertIn(old, markdown)
+                markdown = markdown.replace(old, new)
+            (case / "07-诉讼案件办案方案工作底稿.md").write_text(markdown, encoding="utf-8")
+            manifest = json.loads(
+                (FIXTURE / "FROZEN-07-MANIFEST.json").read_text(encoding="utf-8")
+            )
+            manifest["md_sha256"] = hashlib.sha256(markdown.encode("utf-8")).hexdigest()
+            (case / "FROZEN-07-MANIFEST.json").write_text(
+                json.dumps(manifest, ensure_ascii=False), encoding="utf-8"
+            )
+            profile = self.identified_profile(
+                root, matter_label="（2099）虚0001民初0001号 融资租赁合同纠纷"
+            )
+            out = root / "bundle"
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(RUNNER),
+                    "--enable-client-delivery",
+                    "--case-id",
+                    "SAMPLE-01",
+                    "--frozen07-dir",
+                    str(case),
+                    "--text-pass-receipt",
+                    str(FIXTURE / "TEXT-PASS-RECEIPT.json"),
+                    "--delivery-profile",
+                    str(profile),
+                    "--out",
+                    str(out),
+                    "--format",
+                    "pptx",
+                    "--format",
+                    "html",
+                    "--run-id",
+                    "S2-TEST-IDENTIFIED",
+                ],
+                capture_output=True,
+                text=True,
+                env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+                timeout=300,
+            )
+            self.assertEqual(0, result.returncode, result.stderr)
+            committed = json.loads((out / "ARTIFACT-MANIFEST.json").read_text(encoding="utf-8"))
+            self.assertEqual("identified", committed["data_class"])
+            self.assertEqual("REVIEW_DRAFT", committed["release_state"])
+            self.assertEqual(["pptx", "html"], committed["requested"])
+            html_text = (out / "client-briefing.REVIEW-DRAFT.html").read_text(encoding="utf-8")
+            with zipfile.ZipFile(out / "client-briefing.REVIEW-DRAFT.pptx") as archive:
+                slide_xml = "".join(
+                    archive.read(name).decode("utf-8")
+                    for name in archive.namelist()
+                    if re.fullmatch(r"ppt/slides/slide\d+\.xml", name)
+                )
+            for token in (
+                "虚构宏远建材有限公司",
+                "张伟",
+                "430000000000000000",
+                "13800000000",
+                "（2099）虚0001民初0001号",
+            ):
+                with self.subTest(token=token):
+                    self.assertIn(token, html_text)
+                    self.assertIn(token, slide_xml)
+
+    def test_identified_case_failure_receipt_keeps_data_class(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            out = root / "bundle"
+            result = self.run_candidate(
+                out,
+                "S2-TEST-IDENTIFIED-HOLD",
+                ["html"],
+                env={**os.environ, "S2_HTML_QA_FORCE_UNAVAILABLE": "1"},
+                profile=self.identified_profile(root),
+            )
+            self.assertEqual(3, result.returncode, result.stderr)
+            self.assertFalse(out.exists())
+            receipts = list(root.glob(".bundle.*.failure.json"))
+            self.assertEqual(1, len(receipts), result.stderr)
+            failure = json.loads(receipts[0].read_text(encoding="utf-8"))
+            self.assertEqual("identified", failure["data_class"])
+            self.assertEqual("ENGINE_UNAVAILABLE", failure["failures"][0]["failure_code"])
+            self.assertTrue(failure["formal_output_unchanged"])
+
+    def test_layout_overflow_message_names_page_and_remedy(self):
+        with tempfile.TemporaryDirectory() as raw:
+            qa = Path(raw)
+            header = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR" + (1280).to_bytes(4, "big") + (720).to_bytes(4, "big")
+            for index in (1, 2):
+                (qa / f"slide-{index:02d}.png").write_bytes(header + b"\x08\x02\x00\x00\x00")
+                (qa / f"slide-{index:02d}.layout.json").write_text('{"elements": [], "overflow": true}', encoding="utf-8")
+            (qa / "deck-montage.webp").write_bytes(b"RIFF")
+            (qa / "deck-inspect.ndjson").write_text("{}\n", encoding="utf-8")
+            ir = {"slides": [
+                {"slide_id": "cover-001", "role": "cover", "title": "（2099）虚0001民初0001号 示例纠纷",
+                 "source_refs": [], "content": {}},
+                {"slide_id": "relationship-parties-01", "role": "relationship",
+                 "title": "案件主体", "source_refs": ["A01"], "content": {}},
+            ]}
+            with self.assertRaisesRegex(
+                VerificationError,
+                r"布局导出报告溢出:slide-01\.layout\.json（第1页「（2099）虚0001民初0001号 示例纠纷」，"
+                r"来源交付profile封面字段（matter_label等））；slide-02\.layout\.json（第2页「案件主体」，"
+                r"来源A01）。请缩短这些页的条目，或改用 --format html",
+            ):
+                verify_qa(qa, ir)
 
     @unittest.skipUnless(
         PLAYWRIGHT_CHROME_AVAILABLE, "system Python Playwright/Chrome not configured"

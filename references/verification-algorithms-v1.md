@@ -64,8 +64,8 @@ MUST contain exactly one occurrence for every tuple
 `(element_id, source_id, provenance_ordinal)` and no extra tuple. Each occurrence
 binds:
 
-- `original_text` to the unique locator row in the frozen synthetic/deidentified
-  source and to `original_text_sha256`;
+- `original_text` to the unique locator row in the frozen synthetic,
+  deidentified or identified source and to `original_text_sha256`;
 - `extracted_text` to `extracted_text_sha256`;
 - `approved_display_text` to `display_text_sha256` and, for a text-bearing
   element, byte-for-byte to `element.text.display_text`.
